@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Amazon.S3.Model;
 using Amazon.S3;
 using System.Diagnostics;
@@ -39,11 +35,11 @@ namespace DocumentServiceAPI.Service
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return false;
+                throw ex;
             }
         }
         //GetPreSignedUrl
-        public string GetPreSignedUrl(string fileName)
+        private string GetPreSignedUrl(string fileName)
         {
             var request = new GetPreSignedUrlRequest
             {
@@ -51,8 +47,7 @@ namespace DocumentServiceAPI.Service
                 Key = fileName,
                 Expires = DateTime.Now.AddDays(1)
             };
-            return  _s3Client.GetPreSignedURL(request);
-        
+            return _s3Client.GetPreSignedURL(request);
         }
         //Add item to aws dynamo db  
         public async Task<bool> AddItemToDynamoDbAsync(UploadDocumentModel uploadDocumentModel)
@@ -66,7 +61,7 @@ namespace DocumentServiceAPI.Service
                     {
                         { nameof(uploadDocumentModel.ApplicationId), new AttributeValue { S = uploadDocumentModel.ApplicationId } },
                         { nameof(uploadDocumentModel.ClientId), new AttributeValue { S = uploadDocumentModel.ClientId } },
-                        { nameof(uploadDocumentModel.File), new AttributeValue { S = uploadDocumentModel.File.FileName } },
+                        { nameof(uploadDocumentModel.File), new AttributeValue { S = uploadDocumentModel.File!.FileName } },
                         { nameof(uploadDocumentModel.StatementDescription), new AttributeValue { S = uploadDocumentModel.StatementDescription } }
                     }
                 };
@@ -76,15 +71,15 @@ namespace DocumentServiceAPI.Service
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return false;
+                throw ex;
             }
-        
+
         }
         //Get list of items from dynamo db
         public async Task<List<GetDocumentModel>> GetItemsFromDynamoDbAsync()
         {
             var request = new ScanRequest
-            {
+        {
                 TableName = AWSContants.DynamoDbTableName
             };
             var response = await _dynamoDBClient.ScanAsync(request);
@@ -96,32 +91,64 @@ namespace DocumentServiceAPI.Service
                 StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S
             }).ToList();
             return getDocumentModels;
-        
+
         }
         //Search list of items from dynamo db
-        public async Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? applicationId, string? clientId, string? file,string? statementDescription)
+        public async Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? applicationId, string? clientId, string? file, string? statementDescription)
         {
             var request = new ScanRequest
             {
                 TableName = AWSContants.DynamoDbTableName
             };
             var response = await _dynamoDBClient.ScanAsync(request);
-            var getDocumentModels = response.Items.Select(i => new GetDocumentModel
+            var getDocumentsModel = response.Items.Select(i => new GetDocumentModel
             {
                 ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S,
                 ClientId = i[nameof(GetDocumentModel.ClientId)].S,
                 File = i[nameof(GetDocumentModel.File)].S,
                 StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S,
                 FileURL = GetPreSignedUrl(i[nameof(GetDocumentModel.File)].S)
-            }).Where(x => (!string.IsNullOrEmpty(applicationId) ? x.ApplicationId.Contains(applicationId):true) &&
-                          (!string.IsNullOrEmpty(clientId) ? x.ClientId.Contains(clientId):true) &&
-                          (!string.IsNullOrEmpty(file) ? x.File.Contains(file):true) &&
-                          (!string.IsNullOrEmpty(statementDescription) ? x.StatementDescription.Contains(statementDescription):true)      ).ToList();
-            return getDocumentModels;
+            }).Where(x => (!string.IsNullOrEmpty(applicationId) ? x.ApplicationId!.Contains(applicationId) : true) &&
+                          (!string.IsNullOrEmpty(clientId) ? x.ClientId!.Contains(clientId) : true) &&
+                          (!string.IsNullOrEmpty(file) ? x.File!.Contains(file) : true) &&
+                          (!string.IsNullOrEmpty(statementDescription) ? x.StatementDescription!.Contains(statementDescription) : true)).ToList();
+            return getDocumentsModel;
         }
 
-        
-        
+        //check if primary key value exist in dynamodb table
+        public async Task<bool> IsItemValueExistAsync(string itemValue)
+        {
+            var request = new GetItemRequest
+            {
+                TableName = AWSContants.DynamoDbTableName,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    { nameof(itemValue), new AttributeValue { S = itemValue } }
+                }
+            };
+            var response = await _dynamoDBClient.GetItemAsync(request);
+            return response.Item != null;
 
+        }
+
+        //delete file from s3 bucket
+        public async Task<bool> DeleteFileAsync(string fileName)
+        {
+            try
+            {
+                var deleteRequest = new DeleteObjectRequest
+                {
+                    BucketName = AWSContants.BucketName,
+                    Key = fileName
+                };
+                var response = await _s3Client.DeleteObjectAsync(deleteRequest);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw ex;
+            }
+        }
     }
 }

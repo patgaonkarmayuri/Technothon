@@ -13,5 +13,10 @@ namespace DocumentServiceAPI.Interface
         Task<bool> AddItemToDynamoDbAsync(UploadDocumentModel uploadDocumentModel);
 
         Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? applicationId, string? clientId, string? file,string? statementDescription);
+
+        Task<bool> IsItemValueExistAsync(string itemValue);
+
+        Task<bool> DeleteFileAsync(string fileName);
+        
     }
 }

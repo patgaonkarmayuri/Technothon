@@ -6,6 +6,7 @@ using Amazon.S3.Model;
 using DocumentServiceAPI.Interface;
 using DocumentServiceAPI.Model;
 using DocumentServiceAPI.Constants;
+using static DocumentServiceAPI.Constants.DocumentServiceEnum;
 
 namespace DocumentServiceAPI.Controllers
 {
@@ -21,61 +22,56 @@ namespace DocumentServiceAPI.Controllers
 
         //Upload Document to S3 Bucket
         [HttpPost]
-        public async Task<IActionResult> UpdateDocument([FromForm]UploadDocumentModel uploadDocumentModel)
+        [Route("UploadDocument")]
+        public async Task<IActionResult> UploadDocument([FromForm]UploadDocumentModel uploadDocumentModel)
         {
-            if (uploadDocumentModel.File == null)
-            {
-                return BadRequest(ErrorMessages.InvalidFile);
-            }
             try
             {
+                if (uploadDocumentModel.File == null || uploadDocumentModel.File.Length == 0)
+                {
+                    return BadRequest(DocumentServiceMessages.InvalidFile);
+                }
+                if (string.IsNullOrEmpty(uploadDocumentModel.ApplicationId))
+                {
+                    return BadRequest(DocumentServiceMessages.InvalidApplicationId);
+                }
+                //Check if applicationid or file exist
+                ItemCheckEnum itemCheckResponse= CheckApplicationIdAndFileNameExist(uploadDocumentModel.ApplicationId,uploadDocumentModel.File.FileName);
+                
+                switch(itemCheckResponse){
+                    case ItemCheckEnum.ApplicationIdExist:
+                        return BadRequest(DocumentServiceMessages.ApplicationIdExist);
+                    case ItemCheckEnum.FileNameExist:
+                        return BadRequest(DocumentServiceMessages.FileNameExist);
+                    case ItemCheckEnum.BothExist:
+                        return BadRequest(DocumentServiceMessages.BothExist);
+                }
+                
                 var updateResponse = await UploadFileToS3(uploadDocumentModel.File);
-                if (updateResponse.ToUpper() == "TRUE"){  
+                
+                if (Convert.ToBoolean(updateResponse)){  
 
                     var addMetadataResponse = await _clientService.AddItemToDynamoDbAsync(uploadDocumentModel);
                     if (addMetadataResponse){ 
-                        return Ok(ErrorMessages.UploadSuccess);
+                        return Ok(DocumentServiceMessages.UploadSuccess);
                     }
                     else{
-                        return BadRequest(ErrorMessages.ExceptionOccured);
+                        //delete file if insert to dynamo db failed.
+                        var deleteFileResponse = await _clientService.DeleteFileAsync(uploadDocumentModel.File.FileName);
+                        return BadRequest(DocumentServiceMessages.UploadFailed);
                     }
                 }
                 else{
-                    return BadRequest(ErrorMessages.ExceptionOccured);
+                    return BadRequest(DocumentServiceMessages.UploadFailed);
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return BadRequest(ErrorMessages.ExceptionOccured);
+                return BadRequest(DocumentServiceMessages.ExceptionOccured);
             }
         }
 
-        //UploadFileToS3
-        private async Task<string> UploadFileToS3(IFormFile file)
-        {
-            try
-            {
-                if (file.Length > 0)
-                {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-
-                    var stream = file.OpenReadStream();
-                    var uploadResponse = await _clientService.UploadFileAsync(stream, fileName);
-                    return uploadResponse.ToString();
-                }
-                else
-                {
-                    return ErrorMessages.EmptyFile;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return ErrorMessages.ExceptionOccured;
-            }
-        }
-        
         //Search list of items from dynamo db
         [HttpGet]
         [Route("GetAllDocuments")]
@@ -93,6 +89,48 @@ namespace DocumentServiceAPI.Controllers
             }
         
         }
+        
+        //UploadFileToS3
+        private async Task<bool> UploadFileToS3(IFormFile file)
+        {
+            try
+            {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName!.Trim('"');
+
+                    var stream = file.OpenReadStream();
+                    var uploadResponse = await _clientService.UploadFileAsync(stream, fileName);
+                    return uploadResponse;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw ex;
+            }
+        }
+        //Check if the application id and filename exist
+        private ItemCheckEnum CheckApplicationIdAndFileNameExist(string applicationId, string fileName)
+        {
+            try
+            {
+                var applicationIdExist = _clientService.IsItemValueExistAsync(applicationId).Result;
+                var fileNameExist = _clientService.IsItemValueExistAsync(fileName).Result;
+                if (applicationIdExist && fileNameExist)
+                    return ItemCheckEnum.BothExist;
+                else if (applicationIdExist)
+                    return ItemCheckEnum.ApplicationIdExist;
+                else if (fileNameExist)
+                    return ItemCheckEnum.FileNameExist;
+                else
+                    return ItemCheckEnum.None;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+        }
+        
+
     }
     
 }
