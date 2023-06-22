@@ -7,9 +7,9 @@ namespace DocumentServiceAPI.Constants
 {
     public class AWSContants
     {
-        public const string BucketName = "technothondocumentservice";
-        public const string AccessKey = "AKIA4KPXMHOH4R4CD4Y6";
-        public const string SecretKey = "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";
+        public const string BucketName = "documentservice45";
+        public const string AccessKey = "";
+        public const string SecretKey = "";
         public static string DynamoDbTableName = "DocumentServiceData";
         public static Amazon.RegionEndpoint Region = Amazon.RegionEndpoint.USEast1;
     }
