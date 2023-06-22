@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "c9tyY0oJm+3FNXBDYrGBSHCHXEG7qe8xitpkby/VgDM=",
+  "Source": "DocumentServiceAPI",
+  "BasePath": "_content/DocumentServiceAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
