@@ -60,9 +60,9 @@ namespace DocumentServiceAPI.Service
                     Item = new Dictionary<string, AttributeValue>
                     {
                         { nameof(uploadDocumentModel.ApplicationId), new AttributeValue { S = uploadDocumentModel.ApplicationId } },
-                        { nameof(uploadDocumentModel.ClientId), new AttributeValue { S = uploadDocumentModel.ClientId } },
+                        { nameof(uploadDocumentModel.ClientId), new AttributeValue { S = uploadDocumentModel.ClientId == null? "": uploadDocumentModel.ClientId} },
                         { nameof(uploadDocumentModel.File), new AttributeValue { S = uploadDocumentModel.File!.FileName } },
-                        { nameof(uploadDocumentModel.StatementDescription), new AttributeValue { S = uploadDocumentModel.StatementDescription } }
+                        { nameof(uploadDocumentModel.StatementDescription), new AttributeValue { S = uploadDocumentModel.StatementDescription==null? "":uploadDocumentModel.StatementDescription } }
                     }
                 };
                 var response = await _dynamoDBClient.PutItemAsync(putRequest);
@@ -79,7 +79,7 @@ namespace DocumentServiceAPI.Service
         public async Task<List<GetDocumentModel>> GetItemsFromDynamoDbAsync()
         {
             var request = new ScanRequest
-        {
+            {
                 TableName = AWSContants.DynamoDbTableName
             };
             var response = await _dynamoDBClient.ScanAsync(request);
@@ -96,39 +96,53 @@ namespace DocumentServiceAPI.Service
         //Search list of items from dynamo db
         public async Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? applicationId, string? clientId, string? file, string? statementDescription)
         {
+            try
+            {
+                var request = new ScanRequest
+                {
+                    TableName = AWSContants.DynamoDbTableName
+                };
+                var response = await _dynamoDBClient.ScanAsync(request);
+                var getDocumentsModel = response.Items.Select(i => new GetDocumentModel
+                {
+                    ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S,
+                    ClientId = i[nameof(GetDocumentModel.ClientId)].S,
+                    File = i[nameof(GetDocumentModel.File)].S,
+                    StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S,
+                    FileURL = GetPreSignedUrl(i[nameof(GetDocumentModel.File)].S)
+                }).Where(x => (!string.IsNullOrEmpty(applicationId) ? x.ApplicationId!.Contains(applicationId) : true) &&
+                            (!string.IsNullOrEmpty(clientId) ? x.ClientId!.Contains(clientId) : true) &&
+                            (!string.IsNullOrEmpty(file) ? x.File!.Contains(file) : true) &&
+                            (!string.IsNullOrEmpty(statementDescription) ? x.StatementDescription!.Contains(statementDescription) : true)).ToList();
+                return getDocumentsModel;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw ex;
+            
+            }
+        }
+
+        //check if item name exist in dynamic db database
+        public async Task<bool> IsItemValueExistAsync(string applicationId)
+        {
             var request = new ScanRequest
             {
                 TableName = AWSContants.DynamoDbTableName
             };
             var response = await _dynamoDBClient.ScanAsync(request);
-            var getDocumentsModel = response.Items.Select(i => new GetDocumentModel
+            if(response.Items.ToList().Count  == 0)
             {
-                ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S,
-                ClientId = i[nameof(GetDocumentModel.ClientId)].S,
-                File = i[nameof(GetDocumentModel.File)].S,
-                StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S,
-                FileURL = GetPreSignedUrl(i[nameof(GetDocumentModel.File)].S)
-            }).Where(x => (!string.IsNullOrEmpty(applicationId) ? x.ApplicationId!.Contains(applicationId) : true) &&
-                          (!string.IsNullOrEmpty(clientId) ? x.ClientId!.Contains(clientId) : true) &&
-                          (!string.IsNullOrEmpty(file) ? x.File!.Contains(file) : true) &&
-                          (!string.IsNullOrEmpty(statementDescription) ? x.StatementDescription!.Contains(statementDescription) : true)).ToList();
-            return getDocumentsModel;
-        }
-
-        //check if primary key value exist in dynamodb table
-        public async Task<bool> IsItemValueExistAsync(string itemValue)
-        {
-            var request = new GetItemRequest
+                return false;
+            }
+            var getDocumentModels = response.Items.Select(i => new GetDocumentModel
             {
-                TableName = AWSContants.DynamoDbTableName,
-                Key = new Dictionary<string, AttributeValue>
-                {
-                    { nameof(itemValue), new AttributeValue { S = itemValue } }
-                }
-            };
-            var response = await _dynamoDBClient.GetItemAsync(request);
-            return response.Item != null;
-
+                ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S
+            }).ToList();
+            
+            var checkItemExist = getDocumentModels.Any(x => x.ApplicationId == applicationId);
+            return checkItemExist;
         }
 
         //delete file from s3 bucket

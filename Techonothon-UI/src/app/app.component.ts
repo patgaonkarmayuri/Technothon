@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { HttpClient } from '@angular/common/http';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -15,8 +16,21 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'technothon-ui';
+ url="https://localhost:7002/api/DocumentService/GetAllDocuments"
+
+//api call in componet in typescript
+  constructor(private http: HttpClient) {
+  }
+
+  ngOnInit(): void {
+    this.http.get(`${this.url}`).subscribe(data => {
+      console.log('data:',data);
+      }); 
+    }
+  
+
 
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   matcher = new MyErrorStateMatcher();
