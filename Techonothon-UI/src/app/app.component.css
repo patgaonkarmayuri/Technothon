@@ -22,4 +22,17 @@ table {
     padding-right: 18px;
   }
 
+  .file-upload-container {
+    width: 600px;
+    margin: 20px auto;
+  }
+  
+  .file-upload-container h3{
+    font-size: xx-large;
+  }
+  
+  .file-upload-container h4{
+    font-size: x-large;
+  }
+
   

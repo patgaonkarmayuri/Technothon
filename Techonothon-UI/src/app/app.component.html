@@ -33,6 +33,10 @@
   </div>
 </div>
 
+<div class="file-upload-container">
+  <app-file-upload></app-file-upload>
+</div>
+
 <table mat-table [dataSource]="searchList | filter:filterString" class="mat-elevation-z8">
 
   <ng-container matColumnDef="applicationId">
@@ -59,9 +63,17 @@
     <th mat-header-cell *matHeaderCellDef> file URL </th>
     <td mat-cell *matCellDef="let search"> {{search.fileURL}} </td>
   </ng-container>
+
   
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+      No data matching the filter.
+    </td>
+  </tr>
+
 </table>
 
 <router-outlet></router-outlet>
