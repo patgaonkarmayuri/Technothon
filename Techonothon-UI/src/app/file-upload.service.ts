@@ -7,7 +7,7 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class FileUploadService {
-  private baseUrl = 'assets/json/fileupload.json';
+  private baseUrl = 'https://localhost:7002/api/DocumentService/UploadDocument';
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +22,9 @@ export class FileUploadService {
       reportProgress: true,
       responseType: 'json'
     });
-
+    this.http.request(req).subscribe(event => {
+      console.log("event Data :",event);
+    });
     return this.http.request(req);
   }
 

@@ -14,8 +14,6 @@ namespace DocumentServiceAPI.Interface
 
         Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? searchString);
 
-        Task<bool> IsApplicationIDExistAsync(string applicationId);
-
         Task<bool> IsFileExistAsync(string file);
 
         Task<bool> DeleteFileAsync(string fileName);
