@@ -1,0 +1,39 @@
+[
+    {
+        "applicationId": "001",
+        "clientId": "1",
+        "statementDescription": "test description 1",
+        "file": "test.docx"    
+    },
+    {
+        "applicationId": "002",
+        "clientId": "2",
+        "statementDescription": "test description 2",
+        "file": "test.docx"
+    },
+    {
+        "applicationId": "003",
+        "clientId": "3",
+        "statementDescription": "test description 1",
+        "file": "test.docx"    
+    },
+    {
+        "applicationId": "004",
+        "clientId": "4",
+        "statementDescription": "test description 2",
+        "file": "test.docx"
+    },
+    {
+        "applicationId": "005",
+        "clientId": "5",
+        "statementDescription": "test description 1",
+        "file": "test.docx"    
+    },
+    {
+        "applicationId": "006",
+        "clientId": "6",
+        "statementDescription": "test description 2",
+        "file": "test.docx"
+    }
+
+]

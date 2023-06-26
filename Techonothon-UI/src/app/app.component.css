@@ -1,0 +1,38 @@
+table {
+    width: 100%;
+  }
+
+  .mat-column-applicationId {
+    width: 130px;
+    padding-right: 18px;
+  }
+
+  .mat-column-clientId {
+    width: 80px;
+    padding-right: 18px;
+  }
+
+  .mat-column-statementDescription {
+    width: 180px;
+    padding-right: 18px;
+  }
+
+  .mat-column-file {
+    width: 32px;
+    padding-right: 18px;
+  }
+
+  .file-upload-container {
+    width: 600px;
+    margin: 20px auto;
+  }
+  
+  .file-upload-container h3{
+    font-size: xx-large;
+  }
+  
+  .file-upload-container h4{
+    font-size: x-large;
+  }
+
+  
