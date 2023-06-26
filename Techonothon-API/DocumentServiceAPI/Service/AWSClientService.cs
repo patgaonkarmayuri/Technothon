@@ -32,15 +32,16 @@ namespace DocumentServiceAPI.Service
                 var response = await _s3Client.PutObjectAsync(putRequest);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
-                throw ex;
+                throw;
             }
         }
         //GetPreSignedUrl
         private string GetPreSignedUrl(string fileName)
         {
+            try
+            {
             var request = new GetPreSignedUrlRequest
             {
                 BucketName = AWSContants.BucketName,
@@ -48,6 +49,11 @@ namespace DocumentServiceAPI.Service
                 Expires = DateTime.Now.AddDays(1)
             };
             return _s3Client.GetPreSignedURL(request);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         //Add item to aws dynamo db  
         public async Task<bool> AddItemToDynamoDbAsync(UploadDocumentModel uploadDocumentModel)
@@ -68,33 +74,38 @@ namespace DocumentServiceAPI.Service
                 var response = await _dynamoDBClient.PutItemAsync(putRequest);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
-                throw ex;
+                throw;
             }
 
         }
         //Get list of items from dynamo db
         public async Task<List<GetDocumentModel>> GetItemsFromDynamoDbAsync()
         {
-            var request = new ScanRequest
+            try
             {
-                TableName = AWSContants.DynamoDbTableName
-            };
-            var response = await _dynamoDBClient.ScanAsync(request);
-            var getDocumentModels = response.Items.Select(i => new GetDocumentModel
+                var request = new ScanRequest
+                {
+                    TableName = AWSContants.DynamoDbTableName
+                };
+                var response = await _dynamoDBClient.ScanAsync(request);
+                var getDocumentModels = response.Items.Select(i => new GetDocumentModel
+                {
+                    ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S,
+                    ClientId = i[nameof(GetDocumentModel.ClientId)].S,
+                    File = i[nameof(GetDocumentModel.File)].S,
+                    StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S
+                }).ToList();
+                return getDocumentModels;
+            }
+            catch (Exception)
             {
-                ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S,
-                ClientId = i[nameof(GetDocumentModel.ClientId)].S,
-                File = i[nameof(GetDocumentModel.File)].S,
-                StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S
-            }).ToList();
-            return getDocumentModels;
-
+                throw;
+            }
         }
         //Search list of items from dynamo db
-        public async Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? applicationId, string? clientId, string? file, string? statementDescription)
+        public async Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? searchString)
         {
             try
             {
@@ -110,39 +121,72 @@ namespace DocumentServiceAPI.Service
                     File = i[nameof(GetDocumentModel.File)].S,
                     StatementDescription = i[nameof(GetDocumentModel.StatementDescription)].S,
                     FileURL = GetPreSignedUrl(i[nameof(GetDocumentModel.File)].S)
-                }).Where(x => (!string.IsNullOrEmpty(applicationId) ? x.ApplicationId!.Contains(applicationId) : true) &&
-                            (!string.IsNullOrEmpty(clientId) ? x.ClientId!.Contains(clientId) : true) &&
-                            (!string.IsNullOrEmpty(file) ? x.File!.Contains(file) : true) &&
-                            (!string.IsNullOrEmpty(statementDescription) ? x.StatementDescription!.Contains(statementDescription) : true)).ToList();
+                }).Where(x => (!string.IsNullOrEmpty(searchString) ? (x.ApplicationId!.Contains(searchString) || x.ClientId!.Contains(searchString)|| x.File!.Contains(searchString)|| x.StatementDescription!.Contains(searchString)) : true))
+                .OrderBy(x => x.ApplicationId)
+                .ToList();
                 return getDocumentsModel;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
-                throw ex;
-            
+                throw;           
             }
         }
 
         //check if item name exist in dynamic db database
-        public async Task<bool> IsItemValueExistAsync(string applicationId)
+        public async Task<bool> IsApplicationIDExistAsync(string applicationId)
         {
-            var request = new ScanRequest
+            try
             {
-                TableName = AWSContants.DynamoDbTableName
-            };
-            var response = await _dynamoDBClient.ScanAsync(request);
-            if(response.Items.ToList().Count  == 0)
-            {
-                return false;
+                var request = new ScanRequest
+                {
+                    TableName = AWSContants.DynamoDbTableName
+                };
+                var response = await _dynamoDBClient.ScanAsync(request);
+                if(response.Items.ToList().Count  == 0)
+                {
+                    return false;
+                }
+                var getDocumentModels = response.Items.Select(i => new GetDocumentModel
+                {
+                    ApplicationId = i[nameof(ApplicationId)].S
+                }).ToList();
+                
+                var checkItemExist = getDocumentModels.Any(x => x.ApplicationId == applicationId);
+                return checkItemExist;
             }
-            var getDocumentModels = response.Items.Select(i => new GetDocumentModel
+            catch (Exception)
             {
-                ApplicationId = i[nameof(GetDocumentModel.ApplicationId)].S
-            }).ToList();
-            
-            var checkItemExist = getDocumentModels.Any(x => x.ApplicationId == applicationId);
-            return checkItemExist;
+                throw;
+            }
+        }
+
+        //check if item name exist in dynamic db database
+        public async Task<bool> IsFileExistAsync(string file)
+        {
+            try
+            {
+                var request = new ScanRequest
+                {
+                    TableName = AWSContants.DynamoDbTableName
+                };
+                var response = await _dynamoDBClient.ScanAsync(request);
+                if(response.Items.ToList().Count  == 0)
+                {
+                    return false;
+                }
+                var getDocumentModels = response.Items.Select(i => new GetDocumentModel
+                {
+                    File = i[nameof(File)].S
+                }).ToList();
+                
+                var checkItemExist = getDocumentModels.Any(x => x.File == file);
+                return checkItemExist;
+            }
+            catch (Exception)
+            {
+                //Debug.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         //delete file from s3 bucket
@@ -158,10 +202,9 @@ namespace DocumentServiceAPI.Service
                 var response = await _s3Client.DeleteObjectAsync(deleteRequest);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
-                throw ex;
+                throw;
             }
         }
     }

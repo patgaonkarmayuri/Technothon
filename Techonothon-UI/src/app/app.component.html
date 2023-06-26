@@ -37,27 +37,27 @@
 
   <ng-container matColumnDef="applicationId">
     <th mat-header-cell *matHeaderCellDef> Application Id </th>
-    <td mat-cell *matCellDef="let search of searchList"> {{search.applicationId}} </td>
+    <td mat-cell *matCellDef="let search"> {{search.applicationId}} </td>
   </ng-container>
 
   <ng-container matColumnDef="clientId">
     <th mat-header-cell *matHeaderCellDef> Client Id </th>
-    <td mat-cell *matCellDef="let search of searchList"> {{search.clientId}} </td>
+    <td mat-cell *matCellDef="let search"> {{search.clientId}} </td>
   </ng-container>
 
   <ng-container matColumnDef="statementDescription">
     <th mat-header-cell *matHeaderCellDef> Statement Description </th>
-    <td mat-cell *matCellDef="let search of searchList"> {{search.statementDescription}} </td>
+    <td mat-cell *matCellDef="let search"> {{search.statementDescription}} </td>
   </ng-container>
 
   <ng-container matColumnDef="file">
     <th mat-header-cell *matHeaderCellDef> file </th>
-    <td mat-cell *matCellDef="let search of searchList"> {{search.file}} </td>
+    <td mat-cell *matCellDef="let search"> {{search.file}} </td>
   </ng-container>
 
   <ng-container matColumnDef="fileURL">
     <th mat-header-cell *matHeaderCellDef> file URL </th>
-    <td mat-cell *matCellDef="let search of searchList"> {{search.fileURL}} </td>
+    <td mat-cell *matCellDef="let search"> {{search.fileURL}} </td>
   </ng-container>
   
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

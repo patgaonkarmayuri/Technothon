@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SearchService {
 
-  private url: string = 'assets/json/search.json';
+  private url: string = 'https://localhost:7002/api/DocumentService/GetAllDocuments';
 
   constructor(private http: HttpClient) { }
 

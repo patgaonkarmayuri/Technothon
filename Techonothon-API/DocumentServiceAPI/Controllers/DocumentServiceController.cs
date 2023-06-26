@@ -35,6 +35,10 @@ namespace DocumentServiceAPI.Controllers
                 {
                     return BadRequest(DocumentServiceMessages.InvalidApplicationId);
                 }
+                if (string.IsNullOrEmpty(uploadDocumentModel.ClientId))
+                {
+                    return BadRequest(DocumentServiceMessages.InvalidClientId);
+                }
                 //Check if applicationid or file exist
                 ItemCheckEnum itemCheckResponse= CheckApplicationIdAndFileNameExist(uploadDocumentModel.ApplicationId,uploadDocumentModel.File.FileName);
                 
@@ -43,8 +47,6 @@ namespace DocumentServiceAPI.Controllers
                         return BadRequest(DocumentServiceMessages.ApplicationIdExist);
                     case ItemCheckEnum.FileNameExist:
                         return BadRequest(DocumentServiceMessages.FileNameExist);
-                    case ItemCheckEnum.BothExist:
-                        return BadRequest(DocumentServiceMessages.BothExist);
                 }
                 
                 var updateResponse = await UploadFileToS3(uploadDocumentModel.File);
@@ -71,15 +73,14 @@ namespace DocumentServiceAPI.Controllers
                 return BadRequest(DocumentServiceMessages.ExceptionOccured);
             }
         }
-
         //Search list of items from dynamo db
         [HttpGet]
         [Route("GetAllDocuments")]
-        public async Task<IActionResult> SearchItemsFromDynamoDbAsync(string? applicationId, string? clientId, string? file,string? statementDescription)
+        public async Task<IActionResult> SearchItemsFromDynamoDbAsync(string? searchString)
         {
             try
             {
-                var items = await _clientService.SearchItemsFromDynamoDbAsync(applicationId, clientId, file, statementDescription);
+                var items = await _clientService.SearchItemsFromDynamoDbAsync(searchString);
                 return Ok(items);
             }
             catch (Exception ex)
@@ -89,7 +90,6 @@ namespace DocumentServiceAPI.Controllers
             }
         
         }
-        
         //UploadFileToS3
         private async Task<bool> UploadFileToS3(IFormFile file)
         {
@@ -108,17 +108,15 @@ namespace DocumentServiceAPI.Controllers
             }
         }
         //Check if the application id and filename exist
-        private ItemCheckEnum CheckApplicationIdAndFileNameExist(string applicationId, string fileName)
+        private ItemCheckEnum CheckApplicationIdAndFileNameExist(string applicationId, string file)
         {
             try
             {
-                var applicationIdExist = _clientService.IsItemValueExistAsync(applicationId).Result;
-                var fileNameExist = _clientService.IsItemValueExistAsync(fileName).Result;
-                if (applicationIdExist && fileNameExist)
-                    return ItemCheckEnum.BothExist;
-                else if (applicationIdExist)
+                var applicationIdExist = _clientService.IsApplicationIDExistAsync(applicationId).Result;
+                if (applicationIdExist)
                     return ItemCheckEnum.ApplicationIdExist;
-                else if (fileNameExist)
+                var fileNameExist = _clientService.IsFileExistAsync(file).Result;
+                if (fileNameExist)
                     return ItemCheckEnum.FileNameExist;
                 else
                     return ItemCheckEnum.None;
@@ -129,8 +127,5 @@ namespace DocumentServiceAPI.Controllers
                 throw;
             }
         }
-        
-
     }
-    
 }

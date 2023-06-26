@@ -14,8 +14,7 @@ namespace DocumentServiceAPI.Constants
         public const string UploadFailed = "Document Upload Failed";
         public const string ApplicationIdExist = "ApplicationId already exists";
         public const string FileNameExist = "Document already exists";
-        public const string BothExist = "Both ApplicationId and Document already exists";
         public const string InvalidApplicationId = "Invalid ApplicationId";
-
+        public const string InvalidClientId = "Invalid ClientId"; 
     }
 }
