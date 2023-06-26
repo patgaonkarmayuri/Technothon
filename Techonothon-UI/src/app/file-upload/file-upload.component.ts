@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient, HttpEventType, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FileUploadService } from '../file-upload.service';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-file-upload',
@@ -10,58 +11,68 @@ import { FileUploadService } from '../file-upload.service';
 })
 export class FileUploadComponent implements OnInit {
 
-  currentFile?: File;
-  progress = 0;
-  message = '';
+  shortLink: string = ''; // Variable to store shortLink from api response
+  loading: boolean = false; // Flag variable
+  file: File | null = null; // Variable to store file to Upload
 
-  fileName = 'Select File';
-  fileInfos?: Observable<any>;
+  constructor(private fb: FormBuilder, private fileUploadService: FileUploadService,
+    private http: HttpClient) { }
 
-  constructor(private fileUploadService: FileUploadService) { }
+  uploadFileForm: FormGroup = new FormGroup({
+    clientId: new FormControl(''),
+    statementDescription: new FormControl(''),
+    file: new FormControl('')
+  });
+
 
   ngOnInit(): void {
-    this.fileInfos = this.fileUploadService.getFiles();
+    this.uploadFileForm = this.fb.group(
+      {
+        clientId: ['', Validators.required],
+        statementDescription: ['', Validators.required],
+        file: ['', Validators.required],
+      }
+    );
+  }
+  
+  // On file Select
+  onChange(event: any) {
+    this.file = event.target.files[0];
   }
 
-  selectFile(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const file: File = event.target.files[0];
-      this.currentFile = file;
-      this.fileName = this.currentFile.name;
-    } else {
-      this.fileName = 'Select File';
+  onSubmit(): void {
+    console.log('Submitted form', this.uploadFileForm.value);
+
+    if (this.file) {
+      this.loading = !this.loading;
+      console.log(this.file);
+      this.upload(this.file).subscribe((event: any) => {
+        if (typeof event === 'object') {
+          // Short link via api response
+          this.shortLink = event.link;
+          this.loading = false; // Flag variable
+        }
+      });
     }
   }
 
-  upload(): void {
-    this.progress = 0;
-    this.message = "";
+  private baseUrl = 'assets/json/fileupload.json';
 
-    if (this.currentFile) {
-      this.fileUploadService.upload(this.currentFile).subscribe(
-        (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.message = event.body.message;
-            this.fileInfos = this.fileUploadService.getFiles();
-          }
-        },
-        (err: any) => {
-          console.log(err);
-          this.progress = 0;
+  upload(file: any): Observable<any> {
+    // Create form data
+    const formData = new FormData();
 
-          if (err.error && err.error.message) {
-            this.message = err.error.message;
-          } else {
-            this.message = 'Could not upload the file!';
-          }
+    // Store form name as "file" with file data
+    formData.append('file', file)
+    formData.append('ClientId', this.uploadFileForm.value.clientId)
+    formData.append('StatementDescription', this.uploadFileForm.value.statementDescription)
 
-          this.currentFile = undefined;
-        });
-    }
+    const params = new URLSearchParams();
+    const formValue = this.uploadFileForm.value; // this.form should be a FormGroup
 
+    // Make http post request over api
+    // with formData as req
+    return this.http.post(this.baseUrl, formData);
   }
-
 
 }
