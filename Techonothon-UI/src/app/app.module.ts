@@ -12,12 +12,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
-<<<<<<< Updated upstream
-=======
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { MatTableModule } from '@angular/material/table';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -35,11 +32,8 @@ import { MatTableModule } from '@angular/material/table';
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
-<<<<<<< Updated upstream
-    HttpClientModule
-=======
+    HttpClientModule,
     MatTableModule
->>>>>>> Stashed changes
   ],
   providers: [],
   bootstrap: [AppComponent],
