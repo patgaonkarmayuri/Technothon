@@ -1,14 +1,18 @@
 import {Component, OnInit} from '@angular/core';
+<<<<<<< Updated upstream
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { HttpClient } from '@angular/common/http';
+=======
+import { SearchService } from './services/search.service';
+>>>>>>> Stashed changes
 
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
+export interface FileUploadTableData {
+  applicationId: number;
+  clientId: number;
+  statementDescription: string;
+  file: string;
+  fileURL: string;
 }
 
 @Component({
@@ -16,7 +20,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+<<<<<<< Updated upstream
 export class AppComponent implements OnInit{
+=======
+export class AppComponent implements OnInit {
+>>>>>>> Stashed changes
   title = 'technothon-ui';
  url="https://localhost:7002/api/DocumentService/GetAllDocuments"
 
@@ -32,10 +40,20 @@ export class AppComponent implements OnInit{
   
 
 
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  matcher = new MyErrorStateMatcher();
-}
+  constructor(private searchService: SearchService) {
+  }
+ 
+  filterString: string = '';
+  searchList:Array<any> = [];
 
+  displayedColumns: string[] = ['applicationId', 'clientId', 'statementDescription', 'file', 'fileURL'];
+  
+  ngOnInit() {
+    this.searchService.searchResult().subscribe(data => {
+      this.searchList = data;
+    })
+  }
+}
 
 // mat file upload 
 // https://material.angular.io/components/file-input/overview

@@ -1,0 +1,37 @@
+[
+    {
+        "applicationId": "001",
+        "clientId": "1",
+        "statementDescription": "test description 1",
+        "file": "test.docx",
+        "fileURL": "https://documentservice45.s3.amazonaws.com/test.docx?AWSAccessKeyId=AKIA6IBX64WJOJQ7QGKQ&Expires=1687596865&Signature=rqCSSgCL%2Bkp%2BlNQaOjO4D%2Fb6Hhw%3D"
+    },
+    {
+        "applicationId": "002",
+        "clientId": "2",
+        "statementDescription": "test description 2",
+        "file": "test.docx",
+        "fileURL": "https://documentservice45.s3.amazonaws.com/test.docx?AWSAccessKeyId=AKIA6IBX64WJOJQ7QGKQ&Expires=1687596865&Signature=rqCSSgCL%2Bkp%2BlNQaOjO4D%2Fb6Hhw%3D"
+    },
+    {
+        "applicationId": "003",
+        "clientId": "3",
+        "statementDescription": "test description 3",
+        "file": "test.docx",
+        "fileURL": "https://documentservice45.s3.amazonaws.com/test.docx?AWSAccessKeyId=AKIA6IBX64WJOJQ7QGKQ&Expires=1687596865&Signature=rqCSSgCL%2Bkp%2BlNQaOjO4D%2Fb6Hhw%3D"
+    },
+    {
+        "applicationId": "004",
+        "clientId": "4",
+        "statementDescription": "test description 4",
+        "file": "test.docx",
+        "fileURL": "https://documentservice45.s3.amazonaws.com/test.docx?AWSAccessKeyId=AKIA6IBX64WJOJQ7QGKQ&Expires=1687596865&Signature=rqCSSgCL%2Bkp%2BlNQaOjO4D%2Fb6Hhw%3D"
+    },
+    {
+        "applicationId": "005",
+        "clientId": "5",
+        "statementDescription": "test description 5",
+        "file": "test.docx",
+        "fileURL": "https://documentservice45.s3.amazonaws.com/test.docx?AWSAccessKeyId=AKIA6IBX64WJOJQ7QGKQ&Expires=1687596865&Signature=rqCSSgCL%2Bkp%2BlNQaOjO4D%2Fb6Hhw%3D"
+    }
+]
