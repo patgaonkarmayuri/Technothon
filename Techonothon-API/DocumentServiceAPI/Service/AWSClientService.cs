@@ -37,6 +37,7 @@ namespace DocumentServiceAPI.Service
                 throw;
             }
         }
+
         //GetPreSignedUrl
         private string GetPreSignedUrl(string fileName)
         {
@@ -55,17 +56,20 @@ namespace DocumentServiceAPI.Service
                 throw;
             }
         }
+
         //Add item to aws dynamo db  
         public async Task<bool> AddItemToDynamoDbAsync(UploadDocumentModel uploadDocumentModel)
         {
             try
             {
+                object ApplicationId = GenerateApplicationId();
+
                 var putRequest = new PutItemRequest
                 {
                     TableName = AWSContants.DynamoDbTableName,
                     Item = new Dictionary<string, AttributeValue>
                     {
-                        { nameof(uploadDocumentModel.ApplicationId), new AttributeValue { S = uploadDocumentModel.ApplicationId } },
+                        { nameof(ApplicationId), new AttributeValue { S = ApplicationId.ToString() } },
                         { nameof(uploadDocumentModel.ClientId), new AttributeValue { S = uploadDocumentModel.ClientId == null? "": uploadDocumentModel.ClientId} },
                         { nameof(uploadDocumentModel.File), new AttributeValue { S = uploadDocumentModel.File!.FileName } },
                         { nameof(uploadDocumentModel.StatementDescription), new AttributeValue { S = uploadDocumentModel.StatementDescription==null? "":uploadDocumentModel.StatementDescription } }
@@ -80,6 +84,7 @@ namespace DocumentServiceAPI.Service
             }
 
         }
+
         //Get list of items from dynamo db
         public async Task<List<GetDocumentModel>> GetItemsFromDynamoDbAsync()
         {
@@ -104,6 +109,7 @@ namespace DocumentServiceAPI.Service
                 throw;
             }
         }
+
         //Search list of items from dynamo db
         public async Task<List<GetDocumentModel>> SearchItemsFromDynamoDbAsync(string? searchString)
         {
@@ -133,7 +139,7 @@ namespace DocumentServiceAPI.Service
         }
 
         //check if item name exist in dynamic db database
-        public async Task<bool> IsApplicationIDExistAsync(string applicationId)
+        public async Task<bool> IsApplicationIdExistAsync(string applicationId)
         {
             try
             {
@@ -206,6 +212,27 @@ namespace DocumentServiceAPI.Service
             {
                 throw;
             }
+        }
+
+        //Generate applicationid
+        private string GenerateApplicationId()
+        {
+            try
+            {
+                var applicationId = Guid.NewGuid().ToString();
+                 bool applicationIdExist = IsApplicationIdExistAsync(applicationId).Result;
+                
+                if(applicationIdExist)
+                    return GenerateApplicationId();
+                else
+                    return applicationId;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw;
+            }
+        
         }
     }
 }

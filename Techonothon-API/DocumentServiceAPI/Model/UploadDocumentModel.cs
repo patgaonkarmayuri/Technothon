@@ -7,7 +7,6 @@ namespace DocumentServiceAPI.Model
 {
     public class UploadDocumentModel
     {
-        public string? ApplicationId { get; set; }
         public string? ClientId { get; set; }
         public string? StatementDescription { get; set; }
         public IFormFile? File { get; set; }

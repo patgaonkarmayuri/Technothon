@@ -6,7 +6,6 @@ using Amazon.S3.Model;
 using DocumentServiceAPI.Interface;
 using DocumentServiceAPI.Model;
 using DocumentServiceAPI.Constants;
-using static DocumentServiceAPI.Constants.DocumentServiceEnum;
 
 namespace DocumentServiceAPI.Controllers
 {
@@ -19,7 +18,7 @@ namespace DocumentServiceAPI.Controllers
         {
             _clientService = clientService;            
         }
-
+        
         //Upload Document to S3 Bucket
         [HttpPost]
         [Route("UploadDocument")]
@@ -31,23 +30,15 @@ namespace DocumentServiceAPI.Controllers
                 {
                     return BadRequest(DocumentServiceMessages.InvalidFile);
                 }
-                if (string.IsNullOrEmpty(uploadDocumentModel.ApplicationId))
-                {
-                    return BadRequest(DocumentServiceMessages.InvalidApplicationId);
-                }
                 if (string.IsNullOrEmpty(uploadDocumentModel.ClientId))
                 {
                     return BadRequest(DocumentServiceMessages.InvalidClientId);
                 }
-                //Check if applicationid or file exist
-                ItemCheckEnum itemCheckResponse= CheckApplicationIdAndFileNameExist(uploadDocumentModel.ApplicationId,uploadDocumentModel.File.FileName);
+                //Check if file exist
+                bool fileExist = CheckFileNameExist(uploadDocumentModel.File.FileName);
                 
-                switch(itemCheckResponse){
-                    case ItemCheckEnum.ApplicationIdExist:
-                        return BadRequest(DocumentServiceMessages.ApplicationIdExist);
-                    case ItemCheckEnum.FileNameExist:
-                        return BadRequest(DocumentServiceMessages.FileNameExist);
-                }
+                if(fileExist)
+                    return BadRequest(DocumentServiceMessages.FileNameExist);
                 
                 var updateResponse = await UploadFileToS3(uploadDocumentModel.File);
                 
@@ -73,6 +64,7 @@ namespace DocumentServiceAPI.Controllers
                 return BadRequest(DocumentServiceMessages.ExceptionOccured);
             }
         }
+        
         //Search list of items from dynamo db
         [HttpGet]
         [Route("GetAllDocuments")]
@@ -90,6 +82,7 @@ namespace DocumentServiceAPI.Controllers
             }
         
         }
+        
         //UploadFileToS3
         private async Task<bool> UploadFileToS3(IFormFile file)
         {
@@ -107,19 +100,17 @@ namespace DocumentServiceAPI.Controllers
                 throw ex;
             }
         }
-        //Check if the application id and filename exist
-        private ItemCheckEnum CheckApplicationIdAndFileNameExist(string applicationId, string file)
+        
+        //Check if the filename exist
+        private bool CheckFileNameExist(string file)
         {
             try
             {
-                var applicationIdExist = _clientService.IsApplicationIDExistAsync(applicationId).Result;
-                if (applicationIdExist)
-                    return ItemCheckEnum.ApplicationIdExist;
                 var fileNameExist = _clientService.IsFileExistAsync(file).Result;
                 if (fileNameExist)
-                    return ItemCheckEnum.FileNameExist;
+                    return true;
                 else
-                    return ItemCheckEnum.None;
+                    return false;
             }
             catch (Exception ex)
             {
