@@ -24,12 +24,11 @@ export class AppComponent implements OnInit{
 //api call in componet in typescript
   constructor(private http: HttpClient, private searchService: SearchService) {
   }
- 
+
   filterString: string = '';
   searchList:Array<any> = [];
-
   displayedColumns: string[] = ['applicationId', 'clientId', 'statementDescription', 'file', 'fileURL'];
-  
+
   ngOnInit() {
     this.searchService.searchResult().subscribe(data => {
       this.searchList = data;
@@ -37,7 +36,7 @@ export class AppComponent implements OnInit{
   }
 }
 
-// mat file upload 
+// mat file upload
 // https://material.angular.io/components/file-input/overview
 
 
