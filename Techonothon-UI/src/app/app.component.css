@@ -1,86 +1,177 @@
 table {
-    width: 100%;
-  }
 
-  .mat-column-applicationId {
-    width: 130px;
-    padding-right: 18px;
-  }
+  width: 100%;
 
-  .mat-column-clientId {
-    width: 80px;
-    padding-right: 18px;
-  }
-
-  .mat-column-statementDescription {
-    width: 180px;
-    padding-right: 18px;
-  }
-
-  .mat-column-file {
-    width: 32px;
-    padding-right: 18px;
-  }
-
-  .file-upload-container {
-    width: 600px;
-    margin: 20px auto;
-  }
-
-  .file-upload-container h3{
-    font-size: xx-large;
-  }
-
-  .file-upload-container h4{
-    font-size: x-large;
-  }
-
-  .header {
-    position: fixed;
-    top: 0%;
-    background-color: rgb(34, 30, 41);
-    z-index: 1000;
-    width: 100%;
-    color: white;
-    height: 65px;
-  }
-  .footer {
-    position: fixed;
-    bottom: 0%;
-    background-color: rgb(34, 30, 41);
-    z-index: 1000;
-    width: 100%;
-    color: white;
-    height: 30px;
-  }
-  .logo {
-    position: relative;
-    top: 20px;
-    left: 10px;
-  }
-  .tagline {
-    text-align: right;
-  }
-  .copyright {
-    float: right;
-    padding: 5px;
-    font-size: small2;
-  }
-  .tool-title {
-    text-align: center;
-    /* position: relative; */
-    top: 10px;
-    left: 10px;
-    /* color:rgb(253,95,7); */
-    /* text-shadow: 0 0 3px #FF0000 ; */
-    color: white;
-    text-shadow: 1px 1px 2px rgb(253, 95, 7), 0 0 25px rgb(253, 95, 7),
-      0 0 5px rgb(253, 95, 7);
-    margin-top: -20px;
-    font-size: 27px;
-    font-family: ui-sans-serif;
-  }
-.text-align{
-  text-align: center;
 }
 
+
+
+
+.mat-column-applicationId {
+
+  width: 130px;
+
+  padding-right: 18px;
+
+}
+
+
+
+
+.mat-column-clientId {
+
+  width: 80px;
+
+  padding-right: 18px;
+
+}
+
+
+
+
+.mat-column-statementDescription {
+
+  width: 180px;
+
+  padding-right: 18px;
+
+}
+
+
+
+
+.mat-column-file {
+
+  width: 32px;
+
+  padding-right: 18px;
+
+}
+
+
+
+
+.file-upload-container {
+
+  width: 600px;
+
+  margin: 20px auto;
+
+}
+
+
+
+
+.file-upload-container h3{
+
+  font-size: xx-large;
+
+}
+
+
+
+
+.file-upload-container h4{
+
+  font-size: x-large;
+
+}
+
+
+
+
+.header {
+
+  position: fixed;
+
+  top: 0%;
+
+  background-color: rgb(34, 30, 41);
+
+  z-index: 1000;
+
+  width: 100%;
+
+  color: white;
+
+  height: 65px;
+
+}
+
+.footer {
+
+  position: fixed;
+
+  bottom: 0%;
+
+  background-color: rgb(34, 30, 41);
+
+  z-index: 1000;
+
+  width: 100%;
+
+  color: white;
+
+  height: 30px;
+
+}
+
+.logo {
+
+  position: relative;
+
+  top: 20px;
+
+  left: 10px;
+
+}
+
+.tagline {
+
+  text-align: right;
+
+}
+
+.copyright {
+
+  float: right;
+
+  padding: 5px;
+
+  font-size: small2;
+
+}
+
+.tool-title {
+
+  text-align: center;
+
+  /* position: relative; */
+
+  top: 10px;
+
+  left: 10px;
+
+  /* color:rgb(253,95,7); */
+
+  /* text-shadow: 0 0 3px #FF0000 ; */
+
+  color: white;
+
+  text-shadow: 1px 1px 2px rgb(253, 95, 7), 0 0 25px rgb(253, 95, 7),
+
+    0 0 5px rgb(253, 95, 7);
+
+  margin-top: -20px;
+
+  font-size: 27px;
+
+  font-family: ui-sans-serif;
+
+}
+
+.text-align{
+
+text-align: center;
+
+}

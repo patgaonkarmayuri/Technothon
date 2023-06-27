@@ -15,6 +15,7 @@ import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
 
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -43,7 +44,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     MatCardModule,
     MatFormFieldModule,
     MatProgressBarModule,
-    MatListModule
+    MatListModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

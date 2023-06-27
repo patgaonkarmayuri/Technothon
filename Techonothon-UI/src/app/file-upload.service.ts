@@ -11,7 +11,7 @@ export class FileUploadService {
   constructor(private http: HttpClient) {}
 
   // Returns an observable
-  upload(file: any): Observable<any> {
+  upload1(file: any): Observable<any> {
     // Create form data
     const formData = new FormData();
 

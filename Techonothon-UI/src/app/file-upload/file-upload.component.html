@@ -1,50 +1,104 @@
+<form class="form" [formGroup]="uploadFileForm" (ngSubmit)="onSubmit()">
+
+  <mat-form-field class="example-full-width">
+
+    <mat-label class="label">Client Id:</mat-label>
+
+    <input matInput type="text" class="form-control" formControlName="clientId">
+
+  </mat-form-field>
 
 
-  <form class="form" [formGroup]="uploadFileForm" (ngSubmit)="onSubmit()">
-    <mat-form-field class="example-full-width">
-      <mat-label class="label">Client Id:</mat-label>
-      <input matInput type="text" class="form-control" formControlName="clientId">
-    </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Statement Description: </mat-label>
-      <textarea matInput type="text" class="form-control"  formControlName="statementDescription"></textarea>
-    </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <!-- <mat-label>Statement Description: </mat-label> -->
-      <input matInput  class="form-control" [attr.type]="'file'" (change)="onChange($event)" formControlName="file">
-    </mat-form-field>
+  <mat-form-field class="example-full-width">
 
-    <!-- <div class="field" style="margin-bottom: 10px;">
-        <label class="label">Client Id: </label>
-        <input type="text" class="form-control" formControlName="clientId">
-    </div>
-    <div class="field" style="margin-bottom: 10px;">
-        <label class="label">Statement Description: </label>
-        <input type="text" class="form-control"  formControlName="statementDescription">
-    </div> -->
+    <mat-label>Statement Description: </mat-label>
 
-    <!-- <div class="text-center">
-      <input class="form-control" type="file" (change)="onChange($event)" formControlName="file"/>
-      <br />
-      <button (click)="onUpload()" class="btn btn-success">Upload</button>
-    </div> -->
+    <textarea matInput type="text" class="form-control"  formControlName="statementDescription"></textarea>
 
-    <!-- Shareable short link of uoloaded file -->
-    <div class="container text-center jumbotron" *ngIf="shortLink">
-      <h2>Visit Here</h2>
-      <a href="{{ shortLink }}">{{ shortLink }}</a>
-    </div>
+  </mat-form-field>
 
-    <!--Flag variable is used here-->
-    <div class="container" *ngIf="loading">
-      <h3>Loading ...</h3>
-    </div>
 
-    <div class="field" style="margin-bottom: 10px;">
-      <!-- <label class="label">Password</label> -->
-      <button mat-raised-button color="warn" (click)="onSubmit()" [disabled]="!this.uploadFileForm.valid">Submit</button>
-      <!-- <button role="button" (click)="onSubmit()" [disabled]="!this.uploadFileForm.valid">Submit</button> -->
+
+
+  <mat-form-field class="example-full-width">
+
+    <!-- <mat-label>Statement Description: </mat-label> -->
+
+    <input matInput  class="form-control" accept="all/*" #fileSelect [attr.type]="'file'" (change)="onChange($event)" formControlName="file">
+
+    <span  *ngIf="this.isRemove"><mat-icon (click)= "reset(fileSelect)">close</mat-icon></span>
+
+  </mat-form-field>
+
+
+
+
+  <!-- <div class="field" style="margin-bottom: 10px;">
+
+      <label class="label">Client Id: </label>
+
+      <input type="text" class="form-control" formControlName="clientId">
+
   </div>
+
+  <div class="field" style="margin-bottom: 10px;">
+
+      <label class="label">Statement Description: </label>
+
+      <input type="text" class="form-control"  formControlName="statementDescription">
+
+  </div> -->
+
+
+
+
+  <!-- <div class="text-center">
+
+    <input class="form-control" type="file" (change)="onChange($event)" formControlName="file"/>
+
+    <br />
+
+    <button (click)="onUpload()" class="btn btn-success">Upload</button>
+
+  </div> -->
+
+
+
+
+  <!-- Shareable short link of uoloaded file -->
+
+  <div class="container text-center jumbotron" *ngIf="shortLink">
+
+    <h2>Visit Here</h2>
+
+    <a href="{{ shortLink }}">{{ shortLink }}</a>
+
+  </div>
+
+
+
+
+  <!--Flag variable is used here-->
+
+  <div class="container" *ngIf="loading">
+
+    <h3>Loading ...</h3>
+
+  </div>
+
+
+
+
+  <div class="field" style="margin-bottom: 10px;">
+
+    <!-- <label class="label">Password</label> -->
+
+    <button mat-raised-button color="warn" (click)="onSubmit()" [disabled]="!this.uploadFileForm.valid">Submit</button>
+
+    <!-- <button role="button" (click)="onSubmit()" [disabled]="!this.uploadFileForm.valid">Submit</button> -->
+
+</div>
+
 </form>
