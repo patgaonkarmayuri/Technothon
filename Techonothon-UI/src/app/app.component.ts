@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { HttpClient } from '@angular/common/http';
 import { SearchService } from './services/search.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface FileUploadTableData {
   applicationId: number;
@@ -27,13 +30,27 @@ export class AppComponent implements OnInit{
 
   filterString: string = '';
   searchList:Array<any> = [];
-  displayedColumns: string[] = ['applicationId', 'clientId', 'statementDescription', 'file', 'fileURL'];
+  displayedColumns: string[] = ['applicationId', 'clientId', 'statementDescription', 'file', 'download', 'creationDate'];
+
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.searchService.searchResult().subscribe(data => {
       this.searchList = data;
     })
+// console.log('this.searchList:',this.searchList);
+// if(this.searchList){
+  // this.searchList= new MatTableDataSource(this.searchList );
+// }
+
   }
+
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource.sort = this.sort;
+  // }
+
 }
 
 // mat file upload

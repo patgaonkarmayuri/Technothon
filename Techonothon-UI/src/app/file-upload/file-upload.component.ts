@@ -10,10 +10,12 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit {
-
+  base64File= null;
+  filename = null;
   shortLink: string = ''; // Variable to store shortLink from api response
   loading: boolean = false; // Flag variable
   file: File | null = null; // Variable to store file to Upload
+  isRemove: boolean = false; // Flag variable
 
   constructor(private fb: FormBuilder, private fileUploadService: FileUploadService,
     private http: HttpClient) { }
@@ -30,14 +32,23 @@ export class FileUploadComponent implements OnInit {
       {
         clientId: ['', Validators.required],
         statementDescription: ['', Validators.required],
-        file: ['', Validators.required],
+        file: ['', [Validators.required, Validators.minLength(1)]],
       }
     );
   }
-  
+
   // On file Select
   onChange(event: any) {
     this.file = event.target.files[0];
+    this.isRemove= true;
+
+  }
+
+  reset(element:any) {
+    console.log(element);
+    element.value = "";
+    this.isRemove= false;
+    this.file=null;
   }
 
   onSubmit(): void {
