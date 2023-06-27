@@ -48,6 +48,7 @@ export class FileUploadComponent implements OnInit {
       console.log(this.file);
       this.upload(this.file).subscribe((event: any) => {
         if (typeof event === 'object') {
+          console.log('test response',event);
           // Short link via api response
           this.shortLink = event.link;
           this.loading = false; // Flag variable
@@ -56,7 +57,7 @@ export class FileUploadComponent implements OnInit {
     }
   }
 
-  private baseUrl = 'assets/json/fileupload.json';
+  private baseUrl = 'https://localhost:7002/api/DocumentService/UploadDocument';
 
   upload(file: any): Observable<any> {
     // Create form data
