@@ -15,7 +15,7 @@ builder.Services.AddScoped<IAwsClientService, AwsClientService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyPolicy",
-        builder => builder.AllowAnyOrigin());
+        builder => builder.WithOrigins("http://localhost:4200"));
 });
 
 var app = builder.Build();

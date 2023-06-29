@@ -8,8 +8,8 @@ namespace DocumentServiceAPI.Constants
     public static class AwsContants
     {
         public const string BucketName = "documentservice45";
-        public const string AccessKey = "AKIA6IBX64WJOJQ7QGKQ";
-        public const string SecretKey = "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";
+        public const string AccessKey = "";
+        public const string SecretKey = "";
         public const string DynamoDbTableName = "DocumentServiceData";
 
     }

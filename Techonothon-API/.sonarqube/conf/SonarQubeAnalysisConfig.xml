@@ -7,7 +7,7 @@
   <HasBeginStepCommandLineCredentials>true</HasBeginStepCommandLineCredentials>
   <SonarQubeHostUrl>http://10.53.102.249:9000/</SonarQubeHostUrl>
   <SonarQubeVersion>9.9.1.69595</SonarQubeVersion>
-  <SonarProjectKey>TeamNumbe45</SonarProjectKey>
+  <SonarProjectKey>Team45</SonarProjectKey>
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />

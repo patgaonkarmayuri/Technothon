@@ -65,22 +65,9 @@ export class AppComponent implements OnInit {
     this.myValue = this.searchService.getValue();
     this.searchList = this.myValue;
     console.log('this.searchList:', this.searchList);
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    // this.mySubscription = this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //      // Trick the Router into believing it's last link wasn't previously loaded
-    //      this.router.navigated = false;
-    //   }
-    // }); 
+   
   }
-  // ngOnDestroy(){
-  //   if (this.mySubscription) {
-  //     this.mySubscription.unsubscribe();
-  //   }
-  // }
-  // reLoad(){
-  //   this.router.navigate([this.router.url])
-  // }
+
 
 
 
@@ -89,13 +76,6 @@ export class AppComponent implements OnInit {
   searchList: Array<any> = [];
 
   displayedColumns: string[] = ['applicationId', 'clientId', 'statementDescription', 'file', 'formatedCreationDate', 'download'];
-
-
-
-
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  // @ViewChild(MatSort) sort: MatSort;
 
 
 

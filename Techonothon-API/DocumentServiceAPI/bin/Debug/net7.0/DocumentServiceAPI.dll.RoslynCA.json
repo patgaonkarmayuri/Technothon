@@ -20,9 +20,9 @@
               "resultFile": {
                 "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
                 "region": {
-                  "startLine": 111,
+                  "startLine": 35,
                   "startColumn": 13,
-                  "endLine": 114,
+                  "endLine": 38,
                   "endColumn": 14
                 }
               }
@@ -62,27 +62,6 @@
               "resultFile": {
                 "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
                 "region": {
-                  "startLine": 35,
-                  "startColumn": 13,
-                  "endLine": 38,
-                  "endColumn": 14
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S2737",
-          "level": "warning",
-          "message": "Add logic to this catch clause or eliminate it and rethrow the exception automatically.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
-                "region": {
                   "startLine": 85,
                   "startColumn": 13,
                   "endLine": 88,
@@ -96,81 +75,18 @@
           }
         },
         {
-          "ruleId": "S5122",
+          "ruleId": "S2737",
           "level": "warning",
-          "message": "Make sure this permissive CORS policy is safe here.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Program.cs",
-                "region": {
-                  "startLine": 18,
-                  "startColumn": 20,
-                  "endLine": 18,
-                  "endColumn": 44
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S3445",
-          "level": "warning",
-          "message": "Consider using 'throw;' to preserve the stack trace.",
+          "message": "Add logic to this catch clause or eliminate it and rethrow the exception automatically.",
           "locations": [
             {
               "resultFile": {
                 "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Controllers/DocumentServiceController.cs",
                 "region": {
-                  "startLine": 108,
-                  "startColumn": 17,
+                  "startLine": 105,
+                  "startColumn": 13,
                   "endLine": 108,
-                  "endColumn": 26
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CA2200",
-          "level": "warning",
-          "message": "Re-throwing caught exception changes stack information",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Controllers/DocumentServiceController.cs",
-                "region": {
-                  "startLine": 108,
-                  "startColumn": 17,
-                  "endLine": 108,
-                  "endColumn": 26
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S1481",
-          "level": "warning",
-          "message": "Remove the unused local variable 'response'.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
-                "region": {
-                  "startLine": 82,
-                  "startColumn": 21,
-                  "endLine": 82,
-                  "endColumn": 29
+                  "endColumn": 14
                 }
               }
             }
@@ -188,9 +104,9 @@
               "resultFile": {
                 "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
                 "region": {
-                  "startLine": 169,
+                  "startLine": 111,
                   "startColumn": 13,
-                  "endLine": 172,
+                  "endLine": 114,
                   "endColumn": 14
                 }
               }
@@ -212,6 +128,27 @@
                   "startLine": 141,
                   "startColumn": 13,
                   "endLine": 144,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2737",
+          "level": "warning",
+          "message": "Add logic to this catch clause or eliminate it and rethrow the exception automatically.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
+                "region": {
+                  "startLine": 169,
+                  "startColumn": 13,
+                  "endLine": 172,
                   "endColumn": 14
                 }
               }
@@ -264,27 +201,6 @@
           }
         },
         {
-          "ruleId": "S1481",
-          "level": "warning",
-          "message": "Remove the unused local variable 'response'.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///D:/DocumentService/Technothon/Techonothon-API/DocumentServiceAPI/Service/AwsClientService.cs",
-                "region": {
-                  "startLine": 32,
-                  "startColumn": 21,
-                  "endLine": 32,
-                  "endColumn": 29
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
           "ruleId": "CA1822",
           "level": "note",
           "message": "Member 'GetPreSignedUrl' does not access instance data and can be marked as static",
@@ -323,38 +239,6 @@
             ]
           }
         },
-        "CA2200": {
-          "id": "CA2200",
-          "shortDescription": "Rethrow to preserve stack details",
-          "defaultLevel": "warning",
-          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2200",
-          "properties": {
-            "category": "Usage",
-            "isEnabledByDefault": true,
-            "tags": [
-              "PortedFromFxCop",
-              "Telemetry",
-              "EnabledRuleInAggressiveMode"
-            ]
-          }
-        },
-        "S1481": {
-          "id": "S1481",
-          "shortDescription": "Unused local variables should be removed",
-          "fullDescription": "If a local variable is declared but not used, it is dead code and should be removed. Doing so will improve maintainability because developers will not wonder what the variable is used for.",
-          "defaultLevel": "warning",
-          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1481",
-          "properties": {
-            "category": "Minor Code Smell",
-            "isEnabledByDefault": true,
-            "tags": [
-              "C#",
-              "MainSourceScope",
-              "TestSourceScope",
-              "SonarWay"
-            ]
-          }
-        },
         "S2737": {
           "id": "S2737",
           "shortDescription": "\"catch\" clauses should do more than rethrow",
@@ -363,38 +247,6 @@
           "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-2737",
           "properties": {
             "category": "Minor Code Smell",
-            "isEnabledByDefault": true,
-            "tags": [
-              "C#",
-              "MainSourceScope",
-              "SonarWay"
-            ]
-          }
-        },
-        "S3445": {
-          "id": "S3445",
-          "shortDescription": "Exceptions should not be explicitly rethrown",
-          "fullDescription": "When rethrowing an exception, you should do it by simply calling throw; and not throw exc;, because the stack trace is reset with the second syntax, making debugging a lot harder.",
-          "defaultLevel": "warning",
-          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-3445",
-          "properties": {
-            "category": "Major Code Smell",
-            "isEnabledByDefault": true,
-            "tags": [
-              "C#",
-              "MainSourceScope",
-              "SonarWay"
-            ]
-          }
-        },
-        "S5122": {
-          "id": "S5122",
-          "shortDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive",
-          "fullDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive. It has led in the past to the following vulnerabilities:",
-          "defaultLevel": "warning",
-          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-5122",
-          "properties": {
-            "category": "Minor Security Hotspot",
             "isEnabledByDefault": true,
             "tags": [
               "C#",

@@ -87,11 +87,11 @@
 
 
 
-mat-cell{
+mat-cell {
 
-  display:flex !important;
+  display: flex !important;
 
-  justify-content:center!important;
+  justify-content: center !important;
 
 
 
@@ -103,8 +103,8 @@ mat-cell{
 
 mat-header-cell {
 
-  display:flex;
+  display: flex;
 
-  justify-content:center;
+  justify-content: center;
 
 }

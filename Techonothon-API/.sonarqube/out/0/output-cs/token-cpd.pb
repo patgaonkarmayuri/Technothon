@@ -1,4 +1,4 @@
-–
+”
 YD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Constants\AWSContants.cs
 	namespace 	
 DocumentServiceAPI
@@ -10,7 +10,7 @@ YD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Constants\AWSC
 
 static 
 class 
-AWSContants #
+AwsContants #
 {		 
 public
 
@@ -48,26 +48,13 @@ BucketName
 =& '
 $str( R
 ;R S
-public 
-static 
-string 
-DynamoDbTableName .
-=/ 0
-$str1 F
-;F G
-public 
-static 
-Amazon 
-. 
-RegionEndpoint +
-Region, 2
-=3 4
-Amazon5 ;
-.; <
-RegionEndpoint< J
-.J K
-USEast1K R
-;R S
+public 
+const 
+string 
+DynamoDbTableName -
+=. /
+$str0 E
+;E F
 } 
 } ö
 eD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Constants\DocumentServiceMessages.cs
@@ -161,7 +148,7 @@ eD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Constants\Docu
 $str. @
 ;@ A
 } 
-} úT
+} ËP
 iD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Controllers\DocumentServiceController.cs
 	namespace 	
 DocumentServiceAPI
@@ -188,585 +175,558 @@ iD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Controllers\Do
 ControllerBase- ;
 { 
 private 
-readonly 
-IConfiguration '
-_config( /
-;/ 0
-private 
-readonly 
-IAWSClientService *
-_clientService+ 9
-;9 :
-private 
-object 
-objResponseJson &
-=' (
-new) ,
-object- 3
-(3 4
-)4 5
-;5 6
-public %
-DocumentServiceController (
-(( )
-IAWSClientService) :
-clientService; H
-,H I
-IConfigurationI W
-configX ^
-)^ _
-{ 	
-_clientService 
-= 
-clientService *
-;* +
-_config 
-= 
-config 
-; 
-} 	
-[ 	
-HttpPost	 
-] 
-[ 	
-Route	 
-( 
-$str 
-)  
-]  !
-public 
-async 
-Task 
-< 
-IActionResult '
->' (
-UploadDocument) 7
-(7 8
-[8 9
-FromForm9 A
-]A B
-UploadDocumentModelB U
-uploadDocumentModelV i
-)i j
-{   	
-try!! 
-{"" 
-if## 
-(## 
-uploadDocumentModel## '
-.##' (
-File##( ,
-==##- /
-null##0 4
-||##5 7
-uploadDocumentModel##8 K
-.##K L
-File##L P
-.##P Q
-Length##Q W
-==##X Z
-$num##[ \
-)##\ ]
-{$$ 
-objResponseJson%% #
-=%%$ %
-JsonConvert%%& 1
-.%%1 2
-SerializeObject%%2 A
-(%%A B
-new%%B E
-{%%F G
-Message%%H O
-=%%O P#
-DocumentServiceMessages%%P g
-.%%g h
-InvalidFile%%h s
-,%%s t
-Status%%t z
-=%%{ |
-false	%%} Ç
+readonly 
+IAwsClientService *
+_clientService+ 9
+;9 :
+private 
+object 
+objResponseJson &
+=' (
+new) ,
+object- 3
+(3 4
+)4 5
+;5 6
+public %
+DocumentServiceController (
+(( )
+IAwsClientService) :
+clientService; H
+,H I
+IConfigurationI W
+configX ^
+)^ _
+{ 	
+_clientService 
+= 
+clientService *
+;* +
+} 	
+[ 	
+HttpPost	 
+] 
+[ 	
+Route	 
+( 
+$str 
+)  
+]  !
+public 
+async 
+Task 
+< 
+IActionResult '
+>' (
+UploadDocument) 7
+(7 8
+[8 9
+FromForm9 A
+]A B
+UploadDocumentModelB U
+uploadDocumentModelV i
+)i j
+{ 	
+try 
+{   
+if!! 
+(!! 
+uploadDocumentModel!! '
+.!!' (
+File!!( ,
+==!!- /
+null!!0 4
+||!!5 7
+uploadDocumentModel!!8 K
+.!!K L
+File!!L P
+.!!P Q
+Length!!Q W
+==!!X Z
+$num!![ \
+)!!\ ]
+{"" 
+objResponseJson## #
+=##$ %
+JsonConvert##& 1
+.##1 2
+SerializeObject##2 A
+(##A B
+new##B E
+{##F G
+Message##H O
+=##O P#
+DocumentServiceMessages##P g
+.##g h
+InvalidFile##h s
+,##s t
+Status##t z
+=##{ |
+false	##} Ç
 }
-%%Ç É
+##Ç É
 )
-%%É Ñ
+##É Ñ
 ;
-%%Ñ Ö
-}&& 
-if'' 
-('' 
-string'' 
-.'' 
-IsNullOrEmpty'' (
-(''( )
-uploadDocumentModel'') <
-.''< =
-ClientId''= E
-)''E F
-)''F G
-{(( 
-objResponseJson)) #
-=))$ %
-JsonConvert))& 1
-.))1 2
-SerializeObject))2 A
-())A B
-new))B E
-{))F G
-Message))H O
-=))O P#
-DocumentServiceMessages))P g
-.))g h
-InvalidClientId))h w
-,))w x
-Status))x ~
-=	)) Ä
+##Ñ Ö
+}$$ 
+if%% 
+(%% 
+string%% 
+.%% 
+IsNullOrEmpty%% (
+(%%( )
+uploadDocumentModel%%) <
+.%%< =
+ClientId%%= E
+)%%E F
+)%%F G
+{&& 
+objResponseJson'' #
+=''$ %
+JsonConvert''& 1
+.''1 2
+SerializeObject''2 A
+(''A B
+new''B E
+{''F G
+Message''H O
+=''O P#
+DocumentServiceMessages''P g
+.''g h
+InvalidClientId''h w
+,''w x
+Status''x ~
+=	'' Ä
 false
-))Å Ü
+''Å Ü
 }
-))Ü á
+''Ü á
 )
-))á à
+''á à
 ;
-))à â
-}** 
-bool,, 
-	fileExist,, 
-=,,  
-CheckFileNameExist,,! 3
-(,,3 4
-uploadDocumentModel,,4 G
-.,,G H
-File,,H L
-!,,L M
-.,,M N
-FileName,,N V
-),,V W
-;,,W X
-if.. 
-(.. 
-	fileExist.. 
-).. 
-{.. 
-objResponseJson// #
-=//$ %
-JsonConvert//& 1
-.//1 2
-SerializeObject//2 A
-(//A B
-new//B E
-{//F G
-Message//H O
-=//O P#
-DocumentServiceMessages//P g
-.//g h
-FileNameExist//h u
-,//u v
-Status//v |
-=//} ~
-false	// Ñ
+''à â
+}(( 
+bool** 
+	fileExist** 
+=**  
+CheckFileNameExist**! 3
+(**3 4
+uploadDocumentModel**4 G
+.**G H
+File**H L
+!**L M
+.**M N
+FileName**N V
+)**V W
+;**W X
+if,, 
+(,, 
+	fileExist,, 
+),, 
+{,, 
+objResponseJson-- #
+=--$ %
+JsonConvert--& 1
+.--1 2
+SerializeObject--2 A
+(--A B
+new--B E
+{--F G
+Message--H O
+=--O P#
+DocumentServiceMessages--P g
+.--g h
+FileNameExist--h u
+,--u v
+Status--v |
+=--} ~
+false	-- Ñ
 }
-//Ñ Ö
+--Ñ Ö
 )
-//Ö Ü
+--Ö Ü
 ;
-//Ü á
-return00 
-Ok00 
-(00 
-objResponseJson00 -
-)00- .
-;00. /
-}11 
-var33 
-updateResponse33 "
-=33# $
-await33% *
-UploadFileToS333+ 9
-(339 :
-uploadDocumentModel33: M
-.33M N
-File33N R
-)33R S
-;33S T
-if55 
-(55 
-Convert55 
-.55 
-	ToBoolean55 %
-(55% &
-updateResponse55& 4
-)554 5
-)555 6
-{556 7
-var77 
-addMetadataResponse77 +
-=77, -
-await77. 3
-_clientService774 B
-.77B C"
-AddItemToDynamoDbAsync77C Y
-(77Y Z
-uploadDocumentModel77Z m
-)77m n
-;77n o
-if88 
-(88 
-addMetadataResponse88 +
-)88+ ,
-{88, -
-objResponseJson99 '
-=99( )
-JsonConvert99* 5
-.995 6
-SerializeObject996 E
-(99E F
-new99F I
-{99J K
-Message99L S
-=99S T#
-DocumentServiceMessages99T k
-.99k l
-UploadSuccess99l y
-,99y z
-Status	99z Ä
+--Ü á
+return.. 
+Ok.. 
+(.. 
+objResponseJson.. -
+)..- .
+;... /
+}// 
+var11 
+updateResponse11 "
+=11# $
+await11% *
+UploadFileToS311+ 9
+(119 :
+uploadDocumentModel11: M
+.11M N
+File11N R
+)11R S
+;11S T
+if33 
+(33 
+Convert33 
+.33 
+	ToBoolean33 %
+(33% &
+updateResponse33& 4
+)334 5
+)335 6
+{336 7
+var55 
+addMetadataResponse55 +
+=55, -
+await55. 3
+_clientService554 B
+.55B C"
+AddItemToDynamoDbAsync55C Y
+(55Y Z
+uploadDocumentModel55Z m
+)55m n
+;55n o
+if66 
+(66 
+addMetadataResponse66 +
+)66+ ,
+{66, -
+objResponseJson77 '
+=77( )
+JsonConvert77* 5
+.775 6
+SerializeObject776 E
+(77E F
+new77F I
+{77J K
+Message77L S
+=77S T#
+DocumentServiceMessages77T k
+.77k l
+UploadSuccess77l y
+,77y z
+Status	77z Ä
 =
-99Å Ç
+77Å Ç
 true
-99É á
+77É á
 }
-99á à
+77á à
 )
-99à â
+77à â
 ;
-99â ä
-}:: 
-else;; 
-{;; 
-var== 
-deleteFileResponse== .
-===/ 0
-await==1 6
-_clientService==7 E
-.==E F
-DeleteFileAsync==F U
-(==U V
-uploadDocumentModel==V i
-.==i j
-File==j n
-.==n o
-FileName==o w
-)==w x
-;==x y
-objResponseJson>> '
-=>>( )
-JsonConvert>>* 5
-.>>5 6
-SerializeObject>>6 E
-(>>E F
-new>>F I
-{>>J K
-Message>>L S
-=>>S T#
-DocumentServiceMessages>>T k
-.>>k l
-UploadFailed>>l x
-,>>x y
-Status>>y 
+77â ä
+}88 
+else99 
+{99 
+await;; 
+_clientService;; ,
+.;;, -
+DeleteFileAsync;;- <
+(;;< =
+uploadDocumentModel;;= P
+.;;P Q
+File;;Q U
+.;;U V
+FileName;;V ^
+);;^ _
+;;;_ `
+objResponseJson<< '
+=<<( )
+JsonConvert<<* 5
+.<<5 6
+SerializeObject<<6 E
+(<<E F
+new<<F I
+{<<J K
+Message<<L S
+=<<S T#
+DocumentServiceMessages<<T k
+.<<k l
+UploadFailed<<l x
+,<<x y
+Status<<y 
 =
->>Ä Å
+<<Ä Å
 false
->>Ç á
+<<Ç á
 }
->>á à
+<<á à
 )
->>à â
+<<à â
 ;
->>â ä
-}?? 
-}@@ 
-elseAA 
-{AA 
-objResponseJsonBB #
-=BB$ %
-JsonConvertBB& 1
-.BB1 2
-SerializeObjectBB2 A
-(BBA B
-newBBB E
-{BBF G
-MessageBBH O
-=BBO P#
-DocumentServiceMessagesBBP g
-.BBg h
-UploadFailedBBh t
-,BBt u
-StatusBBu {
-=BB| }
-false	BB~ É
+<<â ä
+}== 
+}>> 
+else?? 
+{?? 
+objResponseJson@@ #
+=@@$ %
+JsonConvert@@& 1
+.@@1 2
+SerializeObject@@2 A
+(@@A B
+new@@B E
+{@@F G
+Message@@H O
+=@@O P#
+DocumentServiceMessages@@P g
+.@@g h
+UploadFailed@@h t
+,@@t u
+Status@@u {
+=@@| }
+false	@@~ É
 }
-BBÉ Ñ
+@@É Ñ
 )
-BBÑ Ö
+@@Ñ Ö
 ;
-BBÖ Ü
-returnCC 
-OkCC 
-(CC 
-objResponseJsonCC -
-)CC- .
-;CC. /
-}DD 
-}EE 
-catchFF 
-(FF 
-	ExceptionFF 
-exFF 
-)FF  
-{GG 
-DebugHH 
-.HH 
-	WriteLineHH 
-(HH  
-exHH  "
-.HH" #
-MessageHH# *
-)HH* +
-;HH+ ,
-objResponseJsonII 
-=II  !
-JsonConvertII" -
-.II- .
-SerializeObjectII. =
-(II= >
-newII> A
-{IIB C
-MessageIID K
-=IIL M#
-DocumentServiceMessagesIIN e
-.IIe f
-ExceptionOccuredIIf v
-,IIv w
-StatusIIw }
-=II~ 
+@@Ö Ü
+returnAA 
+OkAA 
+(AA 
+objResponseJsonAA -
+)AA- .
+;AA. /
+}BB 
+}CC 
+catchDD 
+(DD 
+	ExceptionDD 
+exDD 
+)DD  
+{EE 
+DebugFF 
+.FF 
+	WriteLineFF 
+(FF  
+exFF  "
+.FF" #
+MessageFF# *
+)FF* +
+;FF+ ,
+objResponseJsonGG 
+=GG  !
+JsonConvertGG" -
+.GG- .
+SerializeObjectGG. =
+(GG= >
+newGG> A
+{GGB C
+MessageGGD K
+=GGL M#
+DocumentServiceMessagesGGN e
+.GGe f
+ExceptionOccuredGGf v
+,GGv w
+StatusGGw }
+=GG~ 
 false
-IIÄ Ö
+GGÄ Ö
 }
-IIÖ Ü
+GGÖ Ü
 )
-IIÜ á
+GGÜ á
 ;
-IIá à
-}JJ 
-returnKK 
-OkKK 
-(KK 
-objResponseJsonKK %
-)KK% &
-;KK& '
-}LL 	
-[OO 	
-HttpGetOO	 
-]OO 
-[PP 	
-RoutePP	 
-(PP 
-$strPP  
-)PP  !
-]PP! "
-publicQQ 
-asyncQQ 
-TaskQQ 
-<QQ 
-IActionResultQQ '
->QQ' ((
-SearchItemsFromDynamoDbAsyncQQ) E
-(QQE F
-)QQF G
-{RR 	
-trySS 
-{TT 
-varUU 
-itemsUU 
-=UU 
-awaitUU !
-_clientServiceUU" 0
-.UU0 1(
-SearchItemsFromDynamoDbAsyncUU1 M
-(UUM N
-)UUN O
-;UUO P
-returnVV 
-OkVV 
-(VV 
-itemsVV 
+GGá à
+}HH 
+returnII 
+OkII 
+(II 
+objResponseJsonII %
+)II% &
+;II& '
+}JJ 	
+[MM 	
+HttpGetMM	 
+]MM 
+[NN 	
+RouteNN	 
+(NN 
+$strNN  
+)NN  !
+]NN! "
+publicOO 
+asyncOO 
+TaskOO 
+<OO 
+IActionResultOO '
+>OO' ((
+SearchItemsFromDynamoDbAsyncOO) E
+(OOE F
+)OOF G
+{PP 	
+tryQQ 
+{RR 
+varSS 
+itemsSS 
+=SS 
+awaitSS !
+_clientServiceSS" 0
+.SS0 1(
+SearchItemsFromDynamoDbAsyncSS1 M
+(SSM N
+)SSN O
+;SSO P
+returnTT 
+OkTT 
+(TT 
+itemsTT 
+)TT  
+;TT  !
+}UU 
+catchVV 
+(VV 
+	ExceptionVV 
+exVV 
 )VV  
-;VV  !
-}WW 
-catchXX 
-(XX 
-	ExceptionXX 
-exXX 
-)XX  
-{YY 
-DebugZZ 
-.ZZ 
-	WriteLineZZ 
-(ZZ  
-exZZ  "
-.ZZ" #
-MessageZZ# *
-)ZZ* +
-;ZZ+ ,
-return[[ 
+{WW 
+DebugXX 
+.XX 
+	WriteLineXX 
+(XX  
+exXX  "
+.XX" #
+MessageXX# *
+)XX* +
+;XX+ ,
+returnYY 
 
-BadRequest[[ !
-([[! "
-)[[" #
-;[[# $
-}\\ 
-}^^ 	
-privateaa 
-asyncaa 
-Taskaa 
-<aa 
-boolaa 
->aa  
-UploadFileToS3aa! /
-(aa/ 0
-	IFormFileaa0 9
-fileaa: >
-)aa> ?
-{bb 	
-trycc 
-{dd 
-varee 
-fileNameee 
-=ee )
-ContentDispositionHeaderValueee <
-.ee< =
-Parseee= B
-(eeB C
-fileeeC G
-.eeG H
-ContentDispositioneeH Z
-)eeZ [
-.ee[ \
-FileNameee\ d
-!eed e
-.eee f
-Trimeef j
-(eej k
-$chareek n
-)een o
-;eeo p
-vargg 
-streamgg 
-=gg 
-filegg !
-.gg! "
-OpenReadStreamgg" 0
-(gg0 1
-)gg1 2
-;gg2 3
-varhh 
-uploadResponsehh "
-=hh# $
-awaithh% *
-_clientServicehh+ 9
-.hh9 :
-UploadFileAsynchh: I
-(hhI J
-streamhhJ P
-,hhP Q
-fileNamehhR Z
-)hhZ [
-;hh[ \
-returnii 
-uploadResponseii %
-;ii% &
-}jj 
-catchkk 
-(kk 
-	Exceptionkk 
-exkk 
-)kk  
-{ll 
-Debugmm 
-.mm 
-	WriteLinemm 
-(mm  
-exmm  "
-.mm" #
-Messagemm# *
-)mm* +
-;mm+ ,
-thrownn 
-exnn 
-;nn 
-}oo 
-}pp 	
-privatess 
-boolss 
-CheckFileNameExistss '
-(ss' (
-stringss( .
-filess/ 3
-)ss3 4
-{tt 	
-tryuu 
-{vv 
-varww 
-fileNameExistww !
-=ww" #
-_clientServiceww$ 2
-.ww2 3
-IsFileExistAsyncww3 C
-(wwC D
-filewwD H
-)wwH I
-.wwI J
-ResultwwJ P
-;wwP Q
-ifxx 
-(xx 
-fileNameExistxx !
-)xx! "
-returnyy 
-trueyy 
-;yy  
-elsezz 
-return{{ 
-false{{  
-;{{  !
-}|| 
-catch}} 
-(}} 
-	Exception}} 
-ex}} 
-)}}  
-{~~ 
-Debug 
-. 
-	WriteLine 
-(  
-ex  "
-." #
-Message# *
-)* +
-;+ ,
-throw
-ÄÄ 
-;
-ÄÄ 
+BadRequestYY !
+(YY! "
+)YY" #
+;YY# $
+}ZZ 
+}\\ 	
+private__ 
+async__ 
+Task__ 
+<__ 
+bool__ 
+>__  
+UploadFileToS3__! /
+(__/ 0
+	IFormFile__0 9
+file__: >
+)__> ?
+{`` 	
+tryaa 
+{bb 
+varcc 
+fileNamecc 
+=cc )
+ContentDispositionHeaderValuecc <
+.cc< =
+Parsecc= B
+(ccB C
+fileccC G
+.ccG H
+ContentDispositionccH Z
+)ccZ [
+.cc[ \
+FileNamecc\ d
+!ccd e
+.cce f
+Trimccf j
+(ccj k
+$charcck n
+)ccn o
+;cco p
+varee 
+streamee 
+=ee 
+fileee !
+.ee! "
+OpenReadStreamee" 0
+(ee0 1
+)ee1 2
+;ee2 3
+varff 
+uploadResponseff "
+=ff# $
+awaitff% *
+_clientServiceff+ 9
+.ff9 :
+UploadFileAsyncff: I
+(ffI J
+streamffJ P
+,ffP Q
+fileNameffR Z
+)ffZ [
+;ff[ \
+returngg 
+uploadResponsegg %
+;gg% &
+}hh 
+catchii 
+(ii 
+	Exceptionii 
+)ii 
+{jj 
+throwkk 
+;kk 
+}ll 
+}mm 	
+privatepp 
+boolpp 
+CheckFileNameExistpp '
+(pp' (
+stringpp( .
+filepp/ 3
+)pp3 4
+{qq 	
+tryrr 
+{ss 
+vartt 
+fileNameExisttt !
+=tt" #
+_clientServicett$ 2
+.tt2 3
+IsFileExistAsynctt3 C
+(ttC D
+filettD H
+)ttH I
+.ttI J
+ResultttJ P
+;ttP Q
+ifuu 
+(uu 
+fileNameExistuu !
+)uu! "
+returnvv 
+truevv 
+;vv  
+elseww 
+returnxx 
+falsexx  
+;xx  !
+}yy 
+catchzz 
+(zz 
+	Exceptionzz 
+exzz 
+)zz  
+{{{ 
+Debug|| 
+.|| 
+	WriteLine|| 
+(||  
+ex||  "
+.||" #
+Message||# *
+)||* +
+;||+ ,
+throw}} 
+;}} 
+}~~ 
+} 	
 }
-ÅÅ 
-}
-ÇÇ 	
-}
-ÜÜ 
-}áá æ
+ÉÉ 
+}ÑÑ æ
 
-_D:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Interface\IAWSClientService.cs
+_D:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Interface\IAwsClientService.cs
 	namespace 	
 DocumentServiceAPI
  
@@ -776,7 +736,7 @@ _D:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Interface\IAWS
 public		 
 
 	interface		 
-IAWSClientService		 &
+IAwsClientService		 &
 {
 
  
@@ -1003,7 +963,7 @@ ZD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Model\GetDocum
 ;) *
 }+ ,
 } 
-} ô
+} ®
 KD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Program.cs
 var 
 builder 
@@ -1061,9 +1021,9 @@ KD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Program.cs
 . 
 	AddScoped 
 < 
-IAWSClientService ,
+IAwsClientService ,
 ,, -
-AWSClientService. >
+AwsClientService. >
 >> ?
 (? @
 )@ A
@@ -1086,12 +1046,13 @@ KD:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Program.cs
 builder 
 => 
 builder 
-. 
-AllowAnyOrigin )
-() *
-)* +
-)+ ,
-;, -
+. 
+WithOrigins &
+(& '
+$str' >
+)> ?
+)? @
+;@ A
 } 
 ) 
 ; 
@@ -1168,8 +1129,8 @@ UseRouting 
 ('' 
 )'' 	
 ;''	 
-‹•
-\D:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Service\AWSClientService.cs
+Ç•
+\D:\DocumentService\Technothon\Techonothon-API\DocumentServiceAPI\Service\AwsClientService.cs
 	namespace
 
  	
@@ -1187,9 +1148,9 @@ UseRouting 
 public 
 
 class 
-AWSClientService !
+AwsClientService !
 :" #
-IAWSClientService$ 5
+IAwsClientService$ 5
 { 
 private 
 static 
@@ -1200,19 +1161,21 @@ UseRouting 
 new6 9
 AmazonS3Client: H
 (H I
-AWSContantsI T
+AwsContantsI T
 .T U
 	AccessKeyU ^
 ,^ _
-AWSContants 
+AwsContants 
 . 
 	SecretKey !
-,! "
-AWSContants 
-. 
-Region 
-) 
-;  
+,! "
+Amazon 
+. 
+RegionEndpoint !
+.! "
+USEast1" )
+)) *
+;* +
 private 
 static 
 readonly  
@@ -1222,19 +1185,21 @@ UseRouting 
 newG J 
 AmazonDynamoDBClientK _
 (_ `
-AWSContants` k
+AwsContants` k
 .k l
 	AccessKeyl u
 ,u v
-AWSContants 
+AwsContants 
 . 
 	SecretKey !
-,! "
-AWSContants 
-. 
-Region 
-) 
-;  
+,! "
+Amazon 
+. 
+RegionEndpoint !
+.! "
+USEast1" )
+)) *
+;* +
 public 
 async 
 Task 
@@ -1262,7 +1227,7 @@ putRequest 
 
 BucketName 
 =  
-AWSContants! ,
+AwsContants! ,
 ., -
 
 BucketName- 7
@@ -1275,19 +1240,16 @@ BucketName- 7
 =  !
 stream" (
 } 
-; 
-var   
-response   
-=   
-await   $
-	_s3Client  % .
-.  . /
-PutObjectAsync  / =
-(  = >
+; 
+await   
+	_s3Client   
+.    
+PutObjectAsync    .
+(  . /
 
-putRequest  > H
-)  H I
-;  I J
+putRequest  / 9
+)  9 :
+;  : ;
 return!! 
 true!! 
 ;!! 
@@ -1320,7 +1282,7 @@ putRequest  > H
 
 BucketName00 
 =00  
-AWSContants00! ,
+AwsContants00! ,
 .00, -
 
 BucketName00- 7
@@ -1411,7 +1373,7 @@ putRequestEE 
 {FF 
 	TableNameGG 
 =GG 
-AWSContantsGG  +
+AwsContantsGG  +
 .GG+ ,
 DynamoDbTableNameGG, =
 ,GG= >
@@ -1559,19 +1521,16 @@ DictionaryHH )
 }NNc d
 }PP 
 }QQ 
-;QQ 
-varRR 
-responseRR 
-=RR 
-awaitRR $
-_dynamoDBClientRR% 4
-.RR4 5
-PutItemAsyncRR5 A
-(RRA B
+;QQ 
+awaitRR 
+_dynamoDBClientRR %
+.RR% &
+PutItemAsyncRR& 2
+(RR2 3
 
-putRequestRRB L
-)RRL M
-;RRM N
+putRequestRR3 =
+)RR= >
+;RR> ?
 returnSS 
 trueSS 
 ;SS 
@@ -1608,7 +1567,7 @@ putRequestRRB L
 {bb 
 	TableNamecc 
 =cc 
-AWSContantscc  +
+AwsContantscc  +
 .cc+ ,
 DynamoDbTableNamecc, =
 }dd 
@@ -1736,7 +1695,7 @@ putRequestRRB L
 {{{ 
 	TableName|| 
 =|| 
-AWSContants||  +
+AwsContants||  +
 .||+ ,
 DynamoDbTableName||, =
 }}} 
@@ -2134,7 +2093,7 @@ ParseExact
 öö 
 =
 öö 
-AWSContants
+AwsContants
 öö  +
 .
 öö+ ,
@@ -2370,7 +2329,7 @@ ParseExact
 ∂∂ 
 =
 ∂∂ 
-AWSContants
+AwsContants
 ∂∂  +
 .
 ∂∂+ ,
@@ -2607,7 +2566,7 @@ BucketName
 ““ 
 =
 ““  
-AWSContants
+AwsContants
 ““! ,
 .
 ““, -
@@ -2625,29 +2584,23 @@ BucketName
 }
 ‘‘ 
 ;
-‘‘ 
-var
-’’ 
-response
-’’ 
-=
-’’ 
+‘‘ 
 await
-’’ $
+’’ 
 	_s3Client
-’’% .
+’’ 
 .
-’’. /
+’’  
 DeleteObjectAsync
-’’/ @
+’’  1
 (
-’’@ A
+’’1 2
 deleteRequest
-’’A N
+’’2 ?
 )
-’’N O
+’’? @
 ;
-’’O P
+’’@ A
 return
 ÷÷ 
 true

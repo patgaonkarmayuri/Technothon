@@ -1,0 +1,6 @@
+projectKey=Team45
+serverUrl=http://10.53.102.249:9000
+serverVersion=9.9.1.69595
+dashboardUrl=http://10.53.102.249:9000/dashboard?id=Team45
+ceTaskId=AYkGUJlkw7NnZUNNECJj
+ceTaskUrl=http://10.53.102.249:9000/api/ce/task?id=AYkGUJlkw7NnZUNNECJj

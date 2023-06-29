@@ -29,7 +29,7 @@ namespace DocumentServiceAPI.Service
                     Key = fileName,
                     InputStream = stream
                 };
-                var response = await _s3Client.PutObjectAsync(putRequest);
+                await _s3Client.PutObjectAsync(putRequest);
                 return true;
             }
             catch (Exception)
@@ -79,7 +79,7 @@ namespace DocumentServiceAPI.Service
                         
                     }
                 };
-                var response = await _dynamoDBClient.PutItemAsync(putRequest);
+                await _dynamoDBClient.PutItemAsync(putRequest);
                 return true;
             }
             catch (Exception)
