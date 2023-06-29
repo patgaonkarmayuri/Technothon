@@ -15,7 +15,7 @@
 
     <mat-label>Statement Description: </mat-label>
 
-    <textarea matInput type="text" class="form-control"  formControlName="statementDescription"></textarea>
+    <textarea matInput type="text" class="form-control" formControlName="statementDescription"></textarea>
 
   </mat-form-field>
 
@@ -26,9 +26,10 @@
 
     <!-- <mat-label>Statement Description: </mat-label> -->
 
-    <input matInput  class="form-control" accept="all/*" #fileSelect [attr.type]="'file'" (change)="onChange($event)" formControlName="file">
+    <input matInput class="form-control" accept="all/*" #fileSelect [attr.type]="'file'" (change)="onChange($event)"
+      formControlName="file">
 
-    <span  *ngIf="this.isRemove"><mat-icon (click)= "reset(fileSelect)">close</mat-icon></span>
+    <span *ngIf="this.isRemove"><mat-icon (click)="reset(fileSelect)">close</mat-icon></span>
 
   </mat-form-field>
 
@@ -82,7 +83,7 @@
 
   <!--Flag variable is used here-->
 
-  <div class="container" *ngIf="loading">
+  <div class="container-fluid" *ngIf="loading">
 
     <h3>Loading ...</h3>
 
@@ -93,12 +94,8 @@
 
   <div class="field" style="margin-bottom: 10px;">
 
-    <!-- <label class="label">Password</label> -->
+    <button mat-raised-button color="warn" [disabled]="!this.uploadFileForm.valid">Submit</button>
 
-    <button mat-raised-button color="warn" (click)="onSubmit()" [disabled]="!this.uploadFileForm.valid">Submit</button>
-
-    <!-- <button role="button" (click)="onSubmit()" [disabled]="!this.uploadFileForm.valid">Submit</button> -->
-
-</div>
+  </div>
 
 </form>

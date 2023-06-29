@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IAWSClientService, AWSClientService>();
+builder.Services.AddScoped<IAwsClientService, AwsClientService>();
 
 //Adding CORS Policy
 builder.Services.AddCors(options =>

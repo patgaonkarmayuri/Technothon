@@ -62,7 +62,7 @@ table {
 
 
 
-.file-upload-container h3{
+.file-upload-container h3 {
 
   font-size: xx-large;
 
@@ -71,7 +71,7 @@ table {
 
 
 
-.file-upload-container h4{
+.file-upload-container h4 {
 
   font-size: x-large;
 
@@ -170,8 +170,8 @@ table {
 
 }
 
-.text-align{
+.text-align {
 
-text-align: center;
+  text-align: center;
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -13,5 +13,34 @@ export class SearchService {
 
   searchResult(): Observable<any[]> {
     return this.http.get<any[]>(this.url)
+  }
+
+  downloadFile(url: string): Observable<Blob> {
+
+    return this.http.get(url, { responseType: 'blob' });
+
+  }
+  private myBehaviorSubject = new BehaviorSubject<string>('');
+
+
+
+
+  // reLoad(){
+  //   this.router.navigate([this.router.url])
+  // }
+
+  setValue(value: string) {
+
+    this.myBehaviorSubject.next(value);
+
+  }
+
+
+
+
+  getValue() {
+
+    return this.myBehaviorSubject.asObservable();
+
   }
 }

@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using Amazon.S3;
 namespace DocumentServiceAPI.Constants
 {
-    public class AWSContants
+    public static class AwsContants
     {
         public const string BucketName = "documentservice45";
-        public const string AccessKey = "";
-        public const string SecretKey = "";
-        public static string DynamoDbTableName = "DocumentServiceData";
-        public static Amazon.RegionEndpoint Region = Amazon.RegionEndpoint.USEast1;
+        public const string AccessKey = "AKIA6IBX64WJOJQ7QGKQ";
+        public const string SecretKey = "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";
+        public const string DynamoDbTableName = "DocumentServiceData";
+
     }
 }

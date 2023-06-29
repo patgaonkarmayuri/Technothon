@@ -39,7 +39,8 @@
 
     <a class="navbar-brand" href="#" style="color: white">AI Technothon</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 
       <span class="navbar-toggler-icon"></span>
 
@@ -82,127 +83,131 @@
 
   <div class="row mb-2">
 
-    <div class="col-6 search-form mt-1">
+    <div class="col-9 search-form mt-1">
 
-        <mat-form-field class="example-full-width" appearance="fill">
+      <mat-form-field class="example-full-width" appearance="fill">
 
-          <mat-label>Search</mat-label>
+        <mat-label>Search</mat-label>
 
-          <input type="text" matInput [(ngModel)]="filterString" placeholder="search">
+        <input type="text" matInput [(ngModel)]="filterString" placeholder="search">
 
-        </mat-form-field>
+      </mat-form-field>
 
-        <mat-table #table  [dataSource]="searchList | filter:filterString" class="mat-elevation-z8"
+      <mat-table matTableExporter #exporter="matTableExporter" [dataSource]="searchList | filter:filterString"
+        class="mat-elevation-z8" matSort *ngIf="searchList.length >0">
 
-        matSort *ngIf="searchList.length >0">
 
 
 
+        <ng-container matColumnDef="applicationId">
 
-          <ng-container matColumnDef="applicationId">
+          <mat-header-cell *matHeaderCellDef> Application Id </mat-header-cell>
 
-            <mat-header-cell *matHeaderCellDef> Application Id  </mat-header-cell>
+          <mat-cell *matCellDef="let search"> {{search.applicationId}} </mat-cell>
 
-            <mat-cell *matCellDef="let search"> {{search.applicationId}} </mat-cell>
+        </ng-container>
 
-          </ng-container>
 
 
 
+        <ng-container matColumnDef="clientId">
 
-          <ng-container matColumnDef="clientId">
+          <mat-header-cell *matHeaderCellDef> Client Id </mat-header-cell>
 
-            <mat-header-cell *matHeaderCellDef> Client Id </mat-header-cell>
+          <mat-cell *matCellDef="let search"> {{search.clientId}} </mat-cell>
 
-            <mat-cell *matCellDef="let search"> {{search.clientId}} </mat-cell>
+        </ng-container>
 
-          </ng-container>
 
 
 
+        <ng-container matColumnDef="statementDescription">
 
-          <ng-container matColumnDef="statementDescription">
+          <mat-header-cell *matHeaderCellDef> Statement Description </mat-header-cell>
 
-            <mat-header-cell *matHeaderCellDef> Statement Description </mat-header-cell>
+          <mat-cell *matCellDef="let search"> {{search.statementDescription}} </mat-cell>
 
-            <mat-cell *matCellDef="let search"> {{search.statementDescription}} </mat-cell>
+        </ng-container>
 
-          </ng-container>
 
 
 
+        <ng-container matColumnDef="file">
 
-          <ng-container matColumnDef="file">
+          <mat-header-cell *matHeaderCellDef> File </mat-header-cell>
 
-            <mat-header-cell *matHeaderCellDef> File </mat-header-cell>
+          <mat-cell *matCellDef="let search"> {{search.file}} </mat-cell>
 
-            <mat-cell *matCellDef="let search"> {{search.file}} </mat-cell>
+        </ng-container>
 
-          </ng-container>
 
 
 
 
-          <ng-container matColumnDef="download">
 
-            <mat-header-cell *matHeaderCellDef> Download </mat-header-cell>
 
-            <mat-cell *matCellDef="let search">  <mat-icon>cloud_download</mat-icon></mat-cell>
 
-            <!-- <mat-icon>cloud_download</mat-icon> -->
 
-            <!-- {{search.fileURL}} -->
+        <ng-container matColumnDef="formatedCreationDate">
 
-          </ng-container>
+          <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
 
+          <mat-cell *matCellDef="let search"> {{ search.formatedCreationDate }}
+          </mat-cell>
 
+          <!-- <mat-icon>cloud_download</mat-icon> -->
 
+          <!-- {{search.fileURL}} -->
 
-          <ng-container matColumnDef="creationDate">
+        </ng-container>
 
-            <mat-header-cell *matHeaderCellDef> CreationData </mat-header-cell>
+        <ng-container matColumnDef="download">
 
-            <mat-cell *matCellDef="let search">  {{search.creationDate}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Download </mat-header-cell>
 
-            <!-- <mat-icon>cloud_download</mat-icon> -->
+          <mat-cell *matCellDef="let search"> <mat-icon mat-button
+              (click)="downloadFile(search)">cloud_download</mat-icon>
+          </mat-cell>
 
-            <!-- {{search.fileURL}} -->
+          <!-- <mat-icon>cloud_download</mat-icon> -->
 
-          </ng-container>
+          <!-- {{search.fileURL}} -->
 
+        </ng-container>
 
 
 
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 
 
 
+      </mat-table>
 
-        </mat-table>
+      <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
-        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
-        <div *ngIf="searchList.length === 0" class="text-align">No records found</div>
+      <div *ngIf="searchList.length === 0" class="text-align">No records found</div>
 
 
 
 
     </div>
 
-    <div class="col-6 mt-1">
+    <div class="col-3 mt-1">
 
 
+      <div class="row mb-2">
+        <div class="col-6 file-upload-container">
 
+          <app-file-upload></app-file-upload>
 
-      <div class="file-upload-container">
-
-        <app-file-upload></app-file-upload>
-
+        </div>
       </div>
+
+
 
 
 
@@ -212,7 +217,7 @@
 
 
 
-  </div>
+    </div>
 
   </div>
 

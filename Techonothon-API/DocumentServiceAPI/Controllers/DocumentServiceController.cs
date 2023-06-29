@@ -6,6 +6,8 @@ using Amazon.S3.Model;
 using DocumentServiceAPI.Interface;
 using DocumentServiceAPI.Model;
 using DocumentServiceAPI.Constants;
+using nClam;
+using Newtonsoft.Json;
 
 namespace DocumentServiceAPI.Controllers
 {
@@ -13,10 +15,12 @@ namespace DocumentServiceAPI.Controllers
     [Route("api/[controller]")]
     public class DocumentServiceController : ControllerBase
     {
-        private readonly IAWSClientService _clientService;
-        public DocumentServiceController(IAWSClientService clientService)
+        private readonly IAwsClientService _clientService;
+        private object objResponseJson = new object();
+
+        public DocumentServiceController(IAwsClientService clientService,IConfiguration config)
         {
-            _clientService = clientService;            
+            _clientService = clientService;      
         }
         
         //Upload Document to S3 Bucket
@@ -28,51 +32,55 @@ namespace DocumentServiceAPI.Controllers
             {
                 if (uploadDocumentModel.File == null || uploadDocumentModel.File.Length == 0)
                 {
-                    return BadRequest(DocumentServiceMessages.InvalidFile);
+                    objResponseJson = JsonConvert.SerializeObject(new { Message=DocumentServiceMessages.InvalidFile,Status = false});
                 }
                 if (string.IsNullOrEmpty(uploadDocumentModel.ClientId))
                 {
-                    return BadRequest(DocumentServiceMessages.InvalidClientId);
+                    objResponseJson = JsonConvert.SerializeObject(new { Message=DocumentServiceMessages.InvalidClientId,Status = false});
                 }
                 //Check if file exist
-                bool fileExist = CheckFileNameExist(uploadDocumentModel.File.FileName);
+                bool fileExist = CheckFileNameExist(uploadDocumentModel.File!.FileName);
                 
-                if(fileExist)
-                    return BadRequest(DocumentServiceMessages.FileNameExist);
-                
+                if(fileExist){
+                    objResponseJson = JsonConvert.SerializeObject(new { Message=DocumentServiceMessages.FileNameExist,Status = false});
+                    return Ok(objResponseJson);
+                }
+
                 var updateResponse = await UploadFileToS3(uploadDocumentModel.File);
                 
                 if (Convert.ToBoolean(updateResponse)){  
 
                     var addMetadataResponse = await _clientService.AddItemToDynamoDbAsync(uploadDocumentModel);
                     if (addMetadataResponse){ 
-                        return Ok(DocumentServiceMessages.UploadSuccess);
+                        objResponseJson = JsonConvert.SerializeObject(new { Message=DocumentServiceMessages.UploadSuccess,Status = true});
                     }
                     else{
                         //delete file if insert to dynamo db failed.
-                        var deleteFileResponse = await _clientService.DeleteFileAsync(uploadDocumentModel.File.FileName);
-                        return BadRequest(DocumentServiceMessages.UploadFailed);
+                        await _clientService.DeleteFileAsync(uploadDocumentModel.File.FileName);
+                        objResponseJson = JsonConvert.SerializeObject(new { Message=DocumentServiceMessages.UploadFailed,Status = false});
                     }
                 }
                 else{
-                    return BadRequest(DocumentServiceMessages.UploadFailed);
+                    objResponseJson = JsonConvert.SerializeObject(new { Message=DocumentServiceMessages.UploadFailed,Status = false});
+                    return Ok(objResponseJson);
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return BadRequest(DocumentServiceMessages.ExceptionOccured);
+                objResponseJson = JsonConvert.SerializeObject(new { Message = DocumentServiceMessages.ExceptionOccured,Status = false});
             }
+            return Ok(objResponseJson);
         }
         
         //Search list of items from dynamo db
         [HttpGet]
         [Route("GetAllDocuments")]
-        public async Task<IActionResult> SearchItemsFromDynamoDbAsync(string? searchString)
+        public async Task<IActionResult> SearchItemsFromDynamoDbAsync()
         {
             try
             {
-                var items = await _clientService.SearchItemsFromDynamoDbAsync(searchString);
+                var items = await _clientService.SearchItemsFromDynamoDbAsync();
                 return Ok(items);
             }
             catch (Exception ex)
@@ -88,16 +96,15 @@ namespace DocumentServiceAPI.Controllers
         {
             try
             {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName!.Trim('"');
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName!.Trim('"');
 
-                    var stream = file.OpenReadStream();
-                    var uploadResponse = await _clientService.UploadFileAsync(stream, fileName);
-                    return uploadResponse;
+                var stream = file.OpenReadStream();
+                var uploadResponse = await _clientService.UploadFileAsync(stream, fileName);
+                return uploadResponse;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex.Message);
-                throw ex;
+                throw;
             }
         }
         
@@ -118,5 +125,8 @@ namespace DocumentServiceAPI.Controllers
                 throw;
             }
         }
+
+      
+         
     }
 }

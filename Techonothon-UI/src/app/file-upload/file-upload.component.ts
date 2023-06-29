@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { FileUploadService } from '../file-upload.service';
 
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { SearchService } from '../services/search.service';
 
 
 
@@ -23,7 +24,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 export class FileUploadComponent implements OnInit {
 
-  base64File= null;
+  base64File = null;
 
   filename = null;
 
@@ -34,11 +35,13 @@ export class FileUploadComponent implements OnInit {
   file: File | null = null; // Variable to store file to Upload
 
   isRemove: boolean = false; // Flag variable
+  latestValue: any;
 
 
 
 
   constructor(private fb: FormBuilder, private fileUploadService: FileUploadService,
+    private searchService: SearchService,
 
     private http: HttpClient) { }
 
@@ -86,7 +89,7 @@ export class FileUploadComponent implements OnInit {
 
     this.file = event.target.files[0];
 
-    this.isRemove= true;
+    this.isRemove = true;
 
 
 
@@ -96,15 +99,15 @@ export class FileUploadComponent implements OnInit {
 
 
 
-  reset(element:any) {
+  reset(element: any) {
 
     console.log(element);
 
     element.value = "";
 
-    this.isRemove= false;
+    this.isRemove = false;
 
-    this.file=null;
+    this.file = null;
 
   }
 
@@ -126,16 +129,23 @@ export class FileUploadComponent implements OnInit {
 
       this.upload(this.file).subscribe((event: any) => {
 
-        if (typeof event === 'object') {
+        if (event.Status == true) {
 
-          console.log('test response',event);
+          console.log('test response', event);
 
           // Short link via api response
+          this.searchService.searchResult().subscribe((resp: any) => {
 
-          this.shortLink = event.link;
+            this.latestValue = resp;
+
+          })
 
           this.loading = false; // Flag variable
-
+          window.location.reload();
+        }
+        else {
+          alert(event.Message);
+          this.loading = false; // Flag variable
         }
 
       });
@@ -184,6 +194,12 @@ export class FileUploadComponent implements OnInit {
     // with formData as req
 
     return this.http.post(this.baseUrl, formData);
+
+  }
+
+  updateValue() {
+
+    this.searchService.setValue(this.latestValue);
 
   }
 

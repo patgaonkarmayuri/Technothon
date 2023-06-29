@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DocumentServiceAPI.Constants
 {
-    public class DocumentServiceMessages
+    public static class DocumentServiceMessages
     {
          public const string EmptyFile = "Empty file"; 
          public const string InvalidFile = "Invalid file";

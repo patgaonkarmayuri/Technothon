@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FileUploadService {  
+export class FileUploadService {
 
   private baseUrl = 'assets/json/fileupload.json';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Returns an observable
   upload1(file: any): Observable<any> {

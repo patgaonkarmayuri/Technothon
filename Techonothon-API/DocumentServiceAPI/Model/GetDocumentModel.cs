@@ -11,6 +11,8 @@ namespace DocumentServiceAPI.Model
         public string? ClientId { get; set; }
         public string? StatementDescription { get; set; }
         public string? File { get; set; }
-         public string? FileURL { get; set; }
+        public string? FileURL { get; set; }
+        public string? CreationDate { get; set; }
+        public string? FormatedCreationDate { get; set; }
     }
 }
